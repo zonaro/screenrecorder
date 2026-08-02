@@ -1,0 +1,245 @@
+{
+    "extName": {
+        "message": "Screen Recorder Pro"
+    },
+    "extDesc": {
+        "message": "Record your screen, webcam and export to MP4/WebM. Upload to Google Drive, OneDrive and YouTube."
+    },
+    "cmdToggle": {
+        "message": "Toggle recording"
+    },
+    "popupTitle": {
+        "message": "Screen Recorder"
+    },
+    "sourceLabel": {
+        "message": "Record source"
+    },
+    "sourceScreen": {
+        "message": "Full screen"
+    },
+    "sourceWindow": {
+        "message": "Window"
+    },
+    "sourceTab": {
+        "message": "Tab"
+    },
+    "recordingHint": {
+        "message": "Choose a source and click Record."
+    },
+    "optsCamera": {
+        "message": "Facecam (floating window)"
+    },
+    "optsIncludeCamera": {
+        "message": "Include camera in recording"
+    },
+    "optsMic": {
+        "message": "Microphone"
+    },
+    "optsSystemAudio": {
+        "message": "System audio"
+    },
+    "optsFormat": {
+        "message": "Format"
+    },
+    "optsQuality": {
+        "message": "Quality preset"
+    },
+    "optsAdvanced": {
+        "message": "Advanced (quality × size)"
+    },
+    "optsResolution": {
+        "message": "Resolution"
+    },
+    "resOriginal": {
+        "message": "Original"
+    },
+    "optsFps": {
+        "message": "FPS"
+    },
+    "optsBitrate": {
+        "message": "Bitrate"
+    },
+    "qualityHigh": {
+        "message": "High"
+    },
+    "qualityBalanced": {
+        "message": "Balanced"
+    },
+    "qualityCompact": {
+        "message": "Compact"
+    },
+    "btnRecord": {
+        "message": "Start recording"
+    },
+    "btnStop": {
+        "message": "Stop"
+    },
+    "btnDownload": {
+        "message": "Download"
+    },
+    "btnEdit": {
+        "message": "Edit video"
+    },
+    "btnUpload": {
+        "message": "Upload"
+    },
+    "uploadDrive": {
+        "message": "Google Drive"
+    },
+    "uploadOneDrive": {
+        "message": "OneDrive"
+    },
+    "uploadYouTube": {
+        "message": "YouTube"
+    },
+    "recording": {
+        "message": "Recording"
+    },
+    "recordingComplete": {
+        "message": "Recording complete!"
+    },
+    "openOptions": {
+        "message": "Settings & connections"
+    },
+    "optionsTitle": {
+        "message": "Settings"
+    },
+    "language": {
+        "message": "Language"
+    },
+    "autoLang": {
+        "message": "Browser default"
+    },
+    "googleSection": {
+        "message": "Google (Drive + YouTube)"
+    },
+    "msSection": {
+        "message": "Microsoft (OneDrive)"
+    },
+    "connectGoogle": {
+        "message": "Connect Google"
+    },
+    "connectMs": {
+        "message": "Connect OneDrive"
+    },
+    "disconnect": {
+        "message": "Disconnect"
+    },
+    "connectedAs": {
+        "message": "Connected"
+    },
+    "notConnected": {
+        "message": "Not connected"
+    },
+    "driveFolder": {
+        "message": "Google Drive folder (ID, optional)"
+    },
+    "odFolder": {
+        "message": "OneDrive folder (path, optional)"
+    },
+    "ytPrivacy": {
+        "message": "YouTube upload privacy"
+    },
+    "privacyPublic": {
+        "message": "Public"
+    },
+    "privacyUnlisted": {
+        "message": "Unlisted"
+    },
+    "privacyPrivate": {
+        "message": "Private"
+    },
+    "editorTitle": {
+        "message": "Video Editor"
+    },
+    "btnBack": {
+        "message": "Close"
+    },
+    "btnExport": {
+        "message": "Export"
+    },
+    "btnSplit": {
+        "message": "Split"
+    },
+    "btnDeleteSegment": {
+        "message": "Delete segment"
+    },
+    "btnClearCrop": {
+        "message": "Clear crop"
+    },
+    "btnClearPanZoom": {
+        "message": "Clear pan/zoom"
+    },
+    "btnAddText": {
+        "message": "Add text"
+    },
+    "btnApplyKeyframes": {
+        "message": "Apply keyframes"
+    },
+    "btnClose": {
+        "message": "Close"
+    },
+    "btnDownloadVideo": {
+        "message": "Download video"
+    },
+    "cropHint": {
+        "message": "Drag on the preview to crop the active segment."
+    },
+    "pzStart": {
+        "message": "Start keyframe"
+    },
+    "pzEnd": {
+        "message": "End keyframe"
+    },
+    "pzZoom": {
+        "message": "Zoom"
+    },
+    "pzX": {
+        "message": "Pan X"
+    },
+    "pzY": {
+        "message": "Pan Y"
+    },
+    "doodleHint": {
+        "message": "Draw on the video. Strokes are recorded with time."
+    },
+    "txtColor": {
+        "message": "Color"
+    },
+    "txtStrokeWidth": {
+        "message": "Stroke width"
+    },
+    "txtText": {
+        "message": "Text"
+    },
+    "txtSize": {
+        "message": "Size"
+    },
+    "txtStart": {
+        "message": "Start (s)"
+    },
+    "txtEnd": {
+        "message": "End (s)"
+    },
+    "exportTitle": {
+        "message": "Export edited video"
+    },
+    "exportProgress": {
+        "message": "Exporting..."
+    },
+    "notifUploadDone": {
+        "message": "Upload complete"
+    },
+    "notifUploadFail": {
+        "message": "Upload failed"
+    },
+    "cameraTitle": {
+        "message": "Facecam"
+    },
+    "cameraMirror": {
+        "message": "Mirror"
+    },
+    "cameraClose": {
+        "message": "Close"
+    }
+}

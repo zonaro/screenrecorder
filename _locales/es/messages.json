@@ -1,0 +1,245 @@
+{
+    "extName": {
+        "message": "Grabador de Pantalla Pro"
+    },
+    "extDesc": {
+        "message": "Graba tu pantalla, webcam y exporta a MP4/WebM. Sube a Google Drive, OneDrive y YouTube."
+    },
+    "cmdToggle": {
+        "message": "Alternar grabación"
+    },
+    "popupTitle": {
+        "message": "Grabador de Pantalla"
+    },
+    "sourceLabel": {
+        "message": "Fuente de grabación"
+    },
+    "sourceScreen": {
+        "message": "Pantalla completa"
+    },
+    "sourceWindow": {
+        "message": "Ventana"
+    },
+    "sourceTab": {
+        "message": "Pestaña"
+    },
+    "recordingHint": {
+        "message": "Elige una fuente y pulsa Grabar."
+    },
+    "optsCamera": {
+        "message": "Facecam (ventana flotante)"
+    },
+    "optsIncludeCamera": {
+        "message": "Incluir cámara en la grabación"
+    },
+    "optsMic": {
+        "message": "Micrófono"
+    },
+    "optsSystemAudio": {
+        "message": "Audio del sistema"
+    },
+    "optsFormat": {
+        "message": "Formato"
+    },
+    "optsQuality": {
+        "message": "Calidad"
+    },
+    "optsAdvanced": {
+        "message": "Avanzado (calidad × tamaño)"
+    },
+    "optsResolution": {
+        "message": "Resolución"
+    },
+    "resOriginal": {
+        "message": "Original"
+    },
+    "optsFps": {
+        "message": "FPS"
+    },
+    "optsBitrate": {
+        "message": "Bitrate"
+    },
+    "qualityHigh": {
+        "message": "Alta"
+    },
+    "qualityBalanced": {
+        "message": "Equilibrada"
+    },
+    "qualityCompact": {
+        "message": "Compacta"
+    },
+    "btnRecord": {
+        "message": "Iniciar grabación"
+    },
+    "btnStop": {
+        "message": "Detener"
+    },
+    "btnDownload": {
+        "message": "Descargar"
+    },
+    "btnEdit": {
+        "message": "Editar vídeo"
+    },
+    "btnUpload": {
+        "message": "Subir"
+    },
+    "uploadDrive": {
+        "message": "Google Drive"
+    },
+    "uploadOneDrive": {
+        "message": "OneDrive"
+    },
+    "uploadYouTube": {
+        "message": "YouTube"
+    },
+    "recording": {
+        "message": "Grabando"
+    },
+    "recordingComplete": {
+        "message": "¡Grabación completada!"
+    },
+    "openOptions": {
+        "message": "Configuración y conexiones"
+    },
+    "optionsTitle": {
+        "message": "Configuración"
+    },
+    "language": {
+        "message": "Idioma"
+    },
+    "autoLang": {
+        "message": "Predeterminado del navegador"
+    },
+    "googleSection": {
+        "message": "Google (Drive + YouTube)"
+    },
+    "msSection": {
+        "message": "Microsoft (OneDrive)"
+    },
+    "connectGoogle": {
+        "message": "Conectar Google"
+    },
+    "connectMs": {
+        "message": "Conectar OneDrive"
+    },
+    "disconnect": {
+        "message": "Desconectar"
+    },
+    "connectedAs": {
+        "message": "Conectado"
+    },
+    "notConnected": {
+        "message": "No conectado"
+    },
+    "driveFolder": {
+        "message": "Carpeta de Google Drive (ID, opcional)"
+    },
+    "odFolder": {
+        "message": "Carpeta de OneDrive (ruta, opcional)"
+    },
+    "ytPrivacy": {
+        "message": "Privacidad del subido a YouTube"
+    },
+    "privacyPublic": {
+        "message": "Público"
+    },
+    "privacyUnlisted": {
+        "message": "No listado"
+    },
+    "privacyPrivate": {
+        "message": "Privado"
+    },
+    "editorTitle": {
+        "message": "Editor de Vídeo"
+    },
+    "btnBack": {
+        "message": "Cerrar"
+    },
+    "btnExport": {
+        "message": "Exportar"
+    },
+    "btnSplit": {
+        "message": "Dividir"
+    },
+    "btnDeleteSegment": {
+        "message": "Eliminar segmento"
+    },
+    "btnClearCrop": {
+        "message": "Limpiar recorte"
+    },
+    "btnClearPanZoom": {
+        "message": "Limpiar pan/zoom"
+    },
+    "btnAddText": {
+        "message": "Añadir texto"
+    },
+    "btnApplyKeyframes": {
+        "message": "Aplicar keyframes"
+    },
+    "btnClose": {
+        "message": "Cerrar"
+    },
+    "btnDownloadVideo": {
+        "message": "Descargar vídeo"
+    },
+    "cropHint": {
+        "message": "Arrastra en la vista previa para recortar el segmento activo."
+    },
+    "pzStart": {
+        "message": "Keyframe inicial"
+    },
+    "pzEnd": {
+        "message": "Keyframe final"
+    },
+    "pzZoom": {
+        "message": "Zoom"
+    },
+    "pzX": {
+        "message": "Pan X"
+    },
+    "pzY": {
+        "message": "Pan Y"
+    },
+    "doodleHint": {
+        "message": "Dibuja sobre el vídeo. Los trazos se graban con tiempo."
+    },
+    "txtColor": {
+        "message": "Color"
+    },
+    "txtStrokeWidth": {
+        "message": "Grosor"
+    },
+    "txtText": {
+        "message": "Texto"
+    },
+    "txtSize": {
+        "message": "Tamaño"
+    },
+    "txtStart": {
+        "message": "Inicio (s)"
+    },
+    "txtEnd": {
+        "message": "Fin (s)"
+    },
+    "exportTitle": {
+        "message": "Exportar vídeo editado"
+    },
+    "exportProgress": {
+        "message": "Exportando..."
+    },
+    "notifUploadDone": {
+        "message": "Subida completada"
+    },
+    "notifUploadFail": {
+        "message": "Error en la subida"
+    },
+    "cameraTitle": {
+        "message": "Facecam"
+    },
+    "cameraMirror": {
+        "message": "Espejo"
+    },
+    "cameraClose": {
+        "message": "Cerrar"
+    }
+}

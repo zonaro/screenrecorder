@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <header>
+        <span class="logo">🎥</span>
+        <h1 data-i18n="popupTitle"></h1>
+    </header>
+
+    <section id="setup">
+        <div class="group">
+            <span class="label" data-i18n="sourceLabel"></span>
+            <div class="sources">
+                <button class="source active" data-source="screen">🖥️<span data-i18n="sourceScreen"></span></button>
+                <button class="source" data-source="window">🪟<span data-i18n="sourceWindow"></span></button>
+                <button class="source" data-source="tab">📑<span data-i18n="sourceTab"></span></button>
+            </div>
+        </div>
+
+        <div class="group">
+            <label class="toggle"><input type="checkbox" id="withCamera"><span data-i18n="optsCamera"></span></label>
+            <label class="toggle sub" id="includeCamRow" style="display:none"><input type="checkbox"
+                    id="includeCamera"><span data-i18n="optsIncludeCamera"></span></label>
+            <label class="toggle"><input type="checkbox" id="withMic" checked><span data-i18n="optsMic"></span></label>
+            <label class="toggle"><input type="checkbox" id="withSystemAudio" checked><span
+                    data-i18n="optsSystemAudio"></span></label>
+        </div>
+
+        <div class="group">
+            <div class="field"><span data-i18n="optsFormat"></span>
+                <select id="format">
+                    <option value="mp4">MP4</option>
+                    <option value="webm">WebM</option>
+                </select>
+            </div>
+            <div class="field"><span data-i18n="optsQuality"></span>
+                <select id="preset">
+                    <option value="high" data-i18n="qualityHigh"></option>
+                    <option value="balanced" data-i18n="qualityBalanced" selected></option>
+                    <option value="compact" data-i18n="qualityCompact"></option>
+                </select>
+            </div>
+            <details id="advanced">
+                <summary data-i18n="optsAdvanced"></summary>
+                <div class="field"><span data-i18n="optsResolution"></span>
+                    <select id="resolution">
+                        <option value="original" data-i18n="resOriginal"></option>
+                        <option value="1080">1080p</option>
+                        <option value="720">720p</option>
+                        <option value="480">480p</option>
+                    </select>
+                </div>
+                <div class="field"><span data-i18n="optsFps"></span>
+                    <select id="fps">
+                        <option value="60">60</option>
+                        <option value="30" selected>30</option>
+                        <option value="24">24</option>
+                    </select>
+                </div>
+                <div class="field"><span data-i18n="optsBitrate"></span>
+                    <input type="range" id="bitrate" min="1" max="16" step="0.5" value="5">
+                    <span id="bitrateVal">5 Mbps</span>
+                </div>
+            </details>
+        </div>
+
+        <button id="recordBtn" class="primary" data-i18n="btnRecord"></button>
+        <p class="hint" data-i18n="recordingHint"></p>
+    </section>
+
+    <section id="recording" hidden>
+        <div class="rec-indicator">
+            <span class="dot"></span>
+            <span data-i18n="recording"></span>
+            <b id="timer">00:00</b>
+        </div>
+        <button id="stopBtn" class="danger" data-i18n="btnStop"></button>
+    </section>
+
+    <section id="result" hidden>
+        <p class="ok" data-i18n="recordingComplete"></p>
+        <div class="row">
+            <button id="downloadBtn" class="primary" data-i18n="btnDownload"></button>
+            <button id="editBtn" data-i18n="btnEdit"></button>
+        </div>
+        <div class="group">
+            <span class="label" data-i18n="btnUpload"></span>
+            <div class="row">
+                <button id="upDrive" data-i18n="uploadDrive"></button>
+                <button id="upOneDrive" data-i18n="uploadOneDrive"></button>
+                <button id="upYoutube" data-i18n="uploadYouTube"></button>
+            </div>
+        </div>
+        <div id="progress" hidden>
+            <progress id="progressBar" max="1" value="0"></progress>
+            <span id="progressText">0%</span>
+        </div>
+    </section>
+
+    <footer>
+        <a href="../options/options.html" target="_blank" data-i18n="openOptions"></a>
+    </footer>
+
+    <script src="../lib/i18n.js"></script>
+    <script src="popup.js"></script>
+</body>
+
+</html>

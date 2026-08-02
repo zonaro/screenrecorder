@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="camera.css">
+</head>
+
+<body>
+    <div id="titlebar">
+        <span data-i18n="cameraTitle"></span>
+        <div>
+            <button id="mirror" data-i18n="cameraMirror"></button>
+            <button id="close" data-i18n="cameraClose"></button>
+        </div>
+    </div>
+    <div id="camWrap">
+        <video id="cam" autoplay playsinline muted></video>
+    </div>
+    <script src="../lib/i18n.js"></script>
+    <script src="camera.js"></script>
+</body>
+
+</html>

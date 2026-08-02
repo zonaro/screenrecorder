@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="editor.css">
+</head>
+
+<body>
+    <header>
+        <span class="logo">🎬</span>
+        <h1 data-i18n="editorTitle"></h1>
+        <div class="spacer"></div>
+        <button id="exportBtn" class="primary" data-i18n="btnExport"></button>
+        <button id="backBtn" data-i18n="btnBack"></button>
+    </header>
+
+    <main>
+        <div id="left">
+            <div id="previewBox"><canvas id="preview"></canvas></div>
+            <div id="controls">
+                <button id="playBtn">▶</button>
+                <button id="stopBtn">⏹</button>
+                <input type="range" id="scrub">
+                <span id="timeLabel"></span>
+            </div>
+            <div id="timelineWrap">
+                <div id="timeline"></div>
+                <div class="tline-actions">
+                    <button id="splitBtn" data-i18n="btnSplit"></button>
+                    <button id="deleteBtn" data-i18n="btnDeleteSegment"></button>
+                    <button id="clearCrop" data-i18n="btnClearCrop"></button>
+                    <button id="clearPanZoom" data-i18n="btnClearPanZoom"></button>
+                </div>
+            </div>
+        </div>
+
+        <aside id="right">
+            <div id="tools">
+                <button class="tool active" data-tool="select" title="Select">🖱️</button>
+                <button class="tool" data-tool="crop" title="Crop">✂️</button>
+                <button class="tool" data-tool="panzoom" title="Pan Zoom">🔍</button>
+                <button class="tool" data-tool="doodle" title="Doodle">✏️</button>
+                <button class="tool" data-tool="text" title="Text">T</button>
+            </div>
+
+            <div id="panelCrop" class="panel" hidden>
+                <p data-i18n="cropHint"></p>
+                <button id="clearCrop2" data-i18n="btnClearCrop"></button>
+            </div>
+
+            <div id="panelPanZoom" class="panel" hidden>
+                <h3 data-i18n="pzStart"></h3>
+                <div class="field"><span data-i18n="pzZoom"></span><input type="range" id="pzFromZoom" min="1" max="4"
+                        step="0.1" value="1"><b id="pzFromZoomV">1</b></div>
+                <div class="field"><span data-i18n="pzX"></span><input type="range" id="pzFromX" min="-0.5" max="0.5"
+                        step="0.01" value="0"></div>
+                <div class="field"><span data-i18n="pzY"></span><input type="range" id="pzFromY" min="-0.5" max="0.5"
+                        step="0.01" value="0"></div>
+                <h3 data-i18n="pzEnd"></h3>
+                <div class="field"><span data-i18n="pzZoom"></span><input type="range" id="pzToZoom" min="1" max="4"
+                        step="0.1" value="1"><b id="pzToZoomV">1</b></div>
+                <div class="field"><span data-i18n="pzX"></span><input type="range" id="pzToX" min="-0.5" max="0.5"
+                        step="0.01" value="0"></div>
+                <div class="field"><span data-i18n="pzY"></span><input type="range" id="pzToY" min="-0.5" max="0.5"
+                        step="0.01" value="0"></div>
+                <button id="applyPanZoom" class="primary" data-i18n="btnApplyKeyframes"></button>
+            </div>
+
+            <div id="panelDoodle" class="panel" hidden>
+                <div class="field"><span data-i18n="txtColor"></span><input type="color" id="doodleColor"
+                        value="#ff1744"></div>
+                <div class="field"><span data-i18n="txtStrokeWidth"></span><input type="range" id="doodleWidth" min="2"
+                        max="40" value="8"></div>
+                <p data-i18n="doodleHint"></p>
+            </div>
+
+            <div id="panelText" class="panel" hidden>
+                <button id="addTextBtn" data-i18n="btnAddText"></button>
+                <div id="overlayList"></div>
+                <div id="textProps" hidden>
+                    <input type="text" id="textValue" data-i18n-attr="placeholder|txtText">
+                    <div class="field"><span data-i18n="txtColor"></span><input type="color" id="textColor"
+                            value="#ffffff"></div>
+                    <div class="field"><span data-i18n="txtSize"></span><input type="range" id="textSize" min="0.02"
+                            max="0.2" step="0.01" value="0.06"></div>
+                    <div class="field"><span data-i18n="txtStart"></span><input type="number" id="textStart" step="0.1">
+                    </div>
+                    <div class="field"><span data-i18n="txtEnd"></span><input type="number" id="textEnd" step="0.1">
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <div id="exportPanel" hidden>
+        <h3 data-i18n="exportTitle"></h3>
+        <div class="field"><span data-i18n="optsFormat"></span>
+            <select id="exportFormat">
+                <option value="mp4">MP4</option>
+                <option value="webm">WebM</option>
+            </select>
+        </div>
+        <div class="field"><span data-i18n="optsResolution"></span>
+            <select id="exportResolution">
+                <option value="original" data-i18n="resOriginal"></option>
+                <option value="1080">1080p</option>
+                <option value="720">720p</option>
+                <option value="480">480p</option>
+            </select>
+        </div>
+        <div class="field"><span data-i18n="optsFps"></span>
+            <select id="exportFps">
+                <option value="60">60</option>
+                <option value="30" selected>30</option>
+                <option value="24">24</option>
+            </select>
+        </div>
+        <div class="field"><span data-i18n="optsBitrate"></span>
+            <input type="range" id="exportBitrate" min="1" max="16" step="0.5" value="5"><b id="exportBitrateVal">5
+                Mbps</b>
+        </div>
+        <div id="exportProgressWrap" hidden>
+            <progress id="exportProgress" max="1" value="0"></progress>
+            <span id="exportPct">0%</span>
+        </div>
+        <div class="row" id="exportResult" hidden>
+            <button id="dlExport" class="primary" data-i18n="btnDownloadVideo"></button>
+            <button id="upExportDrive" data-i18n="uploadDrive"></button>
+            <button id="upExportOneDrive" data-i18n="uploadOneDrive"></button>
+            <button id="upExportYoutube" data-i18n="uploadYouTube"></button>
+        </div>
+        <div class="row end">
+            <button id="exportCancel" data-i18n="btnClose"></button>
+            <button id="runExport" class="primary" data-i18n="btnExport"></button>
+        </div>
+    </div>
+
+    <video id="video" style="display:none"></video>
+    <script src="../lib/i18n.js"></script>
+    <script src="../lib/editor-core.js"></script>
+    <script src="../lib/export.js"></script>
+    <script src="editor.js"></script>
+</body>
+
+</html>

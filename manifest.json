@@ -1,0 +1,50 @@
+{
+    "manifest_version": 3,
+    "name": "__MSG_extName__",
+    "version": "1.0.0",
+    "description": "__MSG_extDesc__",
+    "default_locale": "en",
+    "minimum_chrome_version": "126",
+    "permissions": [
+        "desktopCapture",
+        "tabCapture",
+        "offscreen",
+        "storage",
+        "downloads",
+        "identity",
+        "notifications",
+        "unlimitedStorage"
+    ],
+    "host_permissions": [
+        "https://www.googleapis.com/*",
+        "https://accounts.google.com/*",
+        "https://login.microsoftonline.com/*",
+        "https://graph.microsoft.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_title": "__MSG_extName__"
+    },
+    "options_page": "options/options.html",
+    "commands": {
+        "toggle-recording": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+R"
+            },
+            "description": "__MSG_cmdToggle__"
+        }
+    },
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'; media-src 'self' blob:; connect-src 'self' blob: https://www.googleapis.com https://accounts.google.com https://login.microsoftonline.com https://graph.microsoft.com"
+    },
+    "oauth2": {
+        "client_id": "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/youtube.upload"
+        ]
+    }
+}

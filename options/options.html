@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="options.css">
+</head>
+
+<body>
+    <main>
+        <h1 data-i18n="optionsTitle"></h1>
+
+        <section>
+            <h2 data-i18n="language"></h2>
+            <select id="lang">
+                <option value="auto" data-i18n="autoLang"></option>
+                <option value="en">English</option>
+                <option value="pt_BR">Português (Brasil)</option>
+                <option value="es">Español</option>
+            </select>
+        </section>
+
+        <section>
+            <h2 data-i18n="googleSection"></h2>
+            <p id="googleStatus"></p>
+            <div class="row">
+                <button id="connectGoogle" data-i18n="connectGoogle"></button>
+                <button id="disconnectGoogle" data-i18n="disconnect"></button>
+            </div>
+            <label data-i18n="driveFolder"></label>
+            <input type="text" id="driveFolder" placeholder="1ABC...">
+        </section>
+
+        <section>
+            <h2 data-i18n="msSection"></h2>
+            <p id="msStatus"></p>
+            <div class="row">
+                <button id="connectMs" data-i18n="connectMs"></button>
+                <button id="disconnectMs" data-i18n="disconnect"></button>
+            </div>
+            <label data-i18n="odFolder"></label>
+            <input type="text" id="odFolder" placeholder="Recordings">
+        </section>
+
+        <section>
+            <h2>YouTube</h2>
+            <label data-i18n="ytPrivacy"></label>
+            <select id="ytPrivacy">
+                <option value="private" data-i18n="privacyPrivate"></option>
+                <option value="unlisted" data-i18n="privacyUnlisted"></option>
+                <option value="public" data-i18n="privacyPublic"></option>
+            </select>
+        </section>
+    </main>
+
+    <script src="../lib/i18n.js"></script>
+    <script src="options.js"></script>
+</body>
+
+</html>

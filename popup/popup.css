@@ -1,0 +1,240 @@
+:root {
+    --bg: #16181d;
+    --panel: #1e2229;
+    --border: #2c313a;
+    --text: #e8eaed;
+    --muted: #9aa0a6;
+    --accent: #e53935;
+    --primary: #1a73e8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 340px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 13px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+}
+
+header .logo {
+    font-size: 18px;
+}
+
+header h1 {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+section {
+    padding: 12px 14px;
+}
+
+.group {
+    margin-bottom: 12px;
+}
+
+.label {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.sources {
+    display: flex;
+    gap: 6px;
+}
+
+.source {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 4px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.source.active {
+    border-color: var(--primary);
+    background: #1b2b44;
+}
+
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    cursor: pointer;
+}
+
+.toggle.sub {
+    padding-left: 22px;
+    color: var(--muted);
+}
+
+.toggle input {
+    accent-color: var(--primary);
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+}
+
+.field span {
+    flex: 1;
+}
+
+.field select,
+.field input[type="range"] {
+    flex: 1.4;
+}
+
+select {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 8px;
+}
+
+details summary {
+    cursor: pointer;
+    color: var(--muted);
+    margin: 6px 0;
+}
+
+button {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+button:hover {
+    border-color: var(--muted);
+}
+
+button.primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    font-weight: 600;
+}
+
+button.danger {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+}
+
+#recordBtn,
+#stopBtn {
+    width: 100%;
+    margin-top: 6px;
+}
+
+.hint {
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+    font-size: 11px;
+}
+
+.rec-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.rec-indicator .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.2;
+    }
+}
+
+#timer {
+    font-variant-numeric: tabular-nums;
+}
+
+.row {
+    display: flex;
+    gap: 6px;
+    margin: 6px 0;
+    flex-wrap: wrap;
+}
+
+.row button {
+    flex: 1;
+}
+
+.ok {
+    color: #7bd88f;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+#progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+#progressBar {
+    flex: 1;
+}
+
+footer {
+    border-top: 1px solid var(--border);
+    padding: 8px 14px;
+}
+
+footer a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 11px;
+}
+
+footer a:hover {
+    color: var(--text);
+}
