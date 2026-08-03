@@ -1,7 +1,18 @@
 // background.js - service worker: orchestration, auth and uploads.
 importScripts('lib/auth.js', 'lib/upload.js');
 
-const recording = { active: false, startTime: 0, stopResolve: null };
+// The service worker can be killed by Chrome at any time while idle; any
+// state kept only in JS variables (like a plain object here) is lost when
+// that happens, even mid-recording. Persist the active/startTime flags in
+// chrome.storage.session, which survives service worker restarts.
+async function getRecordingState() {
+    const { recActive, recStartTime } = await chrome.storage.session.get(['recActive', 'recStartTime']);
+    return { active: !!recActive, startTime: recStartTime || 0 };
+}
+async function setRecordingState(active, startTime) {
+    await chrome.storage.session.set({ recActive: active, recStartTime: startTime || 0 });
+}
+
 let cameraWindowId = null;
 
 const NOTIF_ICON = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M8AAAMBAQDJ/pLvAAAAAElFTkSuQmCC';
@@ -21,18 +32,38 @@ function notify(title, message) {
     } catch (e) { }
 }
 
+// chrome.runtime.sendMessage() can hang forever if no listener ever calls
+// sendResponse (e.g. the offscreen document failed to load). Never let an
+// internal round-trip block the UI indefinitely - surface a real error
+// instead of a silent hang.
+// Pass timeoutMs = 0 for calls that legitimately wait on the user (the
+// source picker), where any deadline would be wrong.
+function sendToOffscreen(msg, timeoutMs = 8000) {
+    if (!timeoutMs) return chrome.runtime.sendMessage(msg);
+    return Promise.race([
+        chrome.runtime.sendMessage(msg),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Offscreen document did not respond in time')), timeoutMs))
+    ]);
+}
+
 async function ensureOffscreen() {
     const has = await chrome.offscreen.hasDocument();
     if (!has) {
         await chrome.offscreen.createDocument({
             url: 'offscreen.html',
-            reasons: ['DISPLAY_MEDIA'],
+            // USER_MEDIA covers the getUserMedia calls for tab capture, mic
+            // and camera; DISPLAY_MEDIA covers desktop capture.
+            reasons: ['USER_MEDIA', 'DISPLAY_MEDIA'],
             justification: 'Screen recording'
         });
     }
 }
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+    // START/STOP are sent by this same script to the offscreen document;
+    // sendMessage echoes them back to our own listener too. Ignore them
+    // here so we don't answer on the offscreen document's behalf.
+    if (msg.type === 'START' || msg.type === 'STOP') return false;
     handleMessage(msg)
         .then(sendResponse)
         .catch(e => sendResponse({ ok: false, error: e && e.message ? e.message : String(e) }));
@@ -42,32 +73,63 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 async function handleMessage(msg) {
     switch (msg.type) {
         case 'START_RECORDING': {
-            if (recording.active) return { ok: false, error: 'Already recording' };
+            const cur = await getRecordingState();
+            if (cur.active) return { ok: false, error: 'Already recording' };
             await ensureOffscreen();
-            recording.active = true;
-            recording.startTime = Date.now();
+            let startRes;
+            try {
+                // The offscreen document opens the picker itself, so this can
+                // block for as long as the user takes to choose a source.
+                startRes = await sendToOffscreen({ type: 'START', format: msg.format, resolution: msg.resolution, fps: msg.fps, videoBitsPerSecond: msg.videoBitsPerSecond, audioBitsPerSecond: msg.audioBitsPerSecond, withCamera: msg.withCamera, includeCamera: msg.includeCamera, withMic: msg.withMic, withSystemAudio: msg.withSystemAudio }, 0);
+            } catch (e) {
+                return { ok: false, error: e && e.message ? e.message : String(e) };
+            }
+            // The offscreen document reports failures (e.g. getUserMedia
+            // rejected) via its response - don't tell the popup recording
+            // started unless it actually did.
+            if (!startRes || !startRes.ok) {
+                return { ok: false, error: (startRes && startRes.error) || 'Failed to start recording' };
+            }
+            await setRecordingState(true, Date.now());
             chrome.action.setBadgeText({ text: 'REC' });
             chrome.action.setBadgeBackgroundColor({ color: '#e53935' });
-            await chrome.runtime.sendMessage({ type: 'START', streamId: msg.streamId, format: msg.format, resolution: msg.resolution, fps: msg.fps, videoBitsPerSecond: msg.videoBitsPerSecond, audioBitsPerSecond: msg.audioBitsPerSecond, withCamera: msg.withCamera, includeCamera: msg.includeCamera, withMic: msg.withMic, withSystemAudio: msg.withSystemAudio });
-            return { ok: true };
+            return { ok: true, warnings: startRes.warnings || [] };
         }
         case 'STOP_RECORDING': {
-            if (!recording.active) return { ok: false, error: 'Not recording' };
-            const stopped = new Promise((resolve) => { recording.stopResolve = resolve; });
-            await chrome.runtime.sendMessage({ type: 'STOP' });
-            const info = await stopped;
-            recording.active = false;
+            const cur = await getRecordingState();
+            if (!cur.active) return { ok: false, error: 'Not recording' };
+            // Mark inactive and acknowledge right away rather than blocking on
+            // the full stop pipeline (MediaRecorder flush + blob creation) -
+            // that wait used to live in an in-memory Promise which is lost if
+            // the service worker gets killed while waiting. The popup already
+            // listens for the RECORDING_STOPPED broadcast to know when the
+            // finished recording is actually ready.
+            await setRecordingState(false, 0);
             chrome.action.setBadgeText({ text: '' });
-            return { ok: true, info: info };
+            try {
+                await sendToOffscreen({ type: 'STOP' });
+            } catch (e) {
+                return { ok: false, error: e && e.message ? e.message : String(e) };
+            }
+            return { ok: true };
         }
         case 'GET_STATUS': {
+            const cur = await getRecordingState();
             const data = await chrome.storage.local.get(['elapsed', 'lastRecording']);
             return {
                 ok: true,
-                recording: recording.active,
-                elapsed: recording.active ? (Date.now() - recording.startTime) / 1000 : (data.elapsed || 0),
+                recording: cur.active,
+                elapsed: cur.active ? (Date.now() - cur.startTime) / 1000 : (data.elapsed || 0),
                 last: data.lastRecording || null
             };
+        }
+        case 'CLEAR_LAST': {
+            await chrome.storage.local.remove(['lastRecording', 'elapsed']);
+            return { ok: true };
+        }
+        case 'PREPARE_OFFSCREEN': {
+            await ensureOffscreen();
+            return { ok: true };
         }
         case 'OPEN_CAMERA': return openCamera();
         case 'CLOSE_CAMERA': return closeCamera();
@@ -109,7 +171,8 @@ async function handleMessage(msg) {
         }
         case 'RECORDING_STARTED': return { ok: true };
         case 'TIMER_TICK': {
-            if (recording.active) await chrome.storage.local.set({ elapsed: msg.elapsed });
+            const cur = await getRecordingState();
+            if (cur.active) await chrome.storage.local.set({ elapsed: msg.elapsed });
             return { ok: true };
         }
         case 'RECORDING_STOPPED': {
@@ -121,8 +184,9 @@ async function handleMessage(msg) {
                 ext: msg.ext,
                 name: 'Recording_' + stamp() + '.' + msg.ext
             };
-            await chrome.storage.local.set({ lastRecording: last });
-            if (recording.stopResolve) { recording.stopResolve(last); recording.stopResolve = null; }
+            await setRecordingState(false, 0);
+            chrome.action.setBadgeText({ text: '' });
+            await chrome.storage.local.set({ lastRecording: last, elapsed: 0 });
             return { ok: true };
         }
         default:

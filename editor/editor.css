@@ -267,6 +267,13 @@ main {
     font-size: 11px;
 }
 
+/* An id/class rule that sets `display` beats the UA stylesheet's
+   `[hidden] { display: none }`, which left panels such as #exportPanel
+   permanently on screen. This keeps the attribute authoritative. */
+[hidden] {
+    display: none !important;
+}
+
 #exportPanel {
     position: fixed;
     inset: 0;

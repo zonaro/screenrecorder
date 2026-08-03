@@ -11,23 +11,11 @@
     "popupTitle": {
         "message": "Screen Recorder"
     },
-    "sourceLabel": {
-        "message": "Record source"
-    },
-    "sourceScreen": {
-        "message": "Full screen"
-    },
-    "sourceWindow": {
-        "message": "Window"
-    },
-    "sourceTab": {
-        "message": "Tab"
-    },
     "recordingHint": {
-        "message": "Choose a source and click Record."
+        "message": "Click Record and pick a screen, window or tab."
     },
     "optsCamera": {
-        "message": "Facecam (floating window)"
+        "message": "Facecam (Picture-in-Picture)"
     },
     "optsIncludeCamera": {
         "message": "Include camera in recording"
@@ -241,5 +229,35 @@
     },
     "cameraClose": {
         "message": "Close"
+    },
+    "cameraStartPip": {
+        "message": "Start facecam"
+    },
+    "permsSection": {
+        "message": "Microphone and camera"
+    },
+    "permsHint": {
+        "message": "Recording runs in the background and cannot ask for these permissions on its own. Grant them once here to use the microphone and facecam."
+    },
+    "permsGranted": {
+        "message": "Permissions granted ✓"
+    },
+    "permsMissing": {
+        "message": "Permissions not granted yet."
+    },
+    "permsDenied": {
+        "message": "Permission denied. Allow microphone and camera in the site settings for this extension."
+    },
+    "grantMedia": {
+        "message": "Allow microphone and camera"
+    },
+    "warnMicUnavailable": {
+        "message": "Recording started, but without the microphone: permission was not granted. Open the extension options and click \"Allow microphone and camera\"."
+    },
+    "warnCameraUnavailable": {
+        "message": "Recording started, but without the camera: permission was not granted. Open the extension options and click \"Allow microphone and camera\"."
+    },
+    "btnNewRecording": {
+        "message": "New recording"
     }
 }

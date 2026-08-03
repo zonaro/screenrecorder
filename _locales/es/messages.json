@@ -11,23 +11,11 @@
     "popupTitle": {
         "message": "Grabador de Pantalla"
     },
-    "sourceLabel": {
-        "message": "Fuente de grabación"
-    },
-    "sourceScreen": {
-        "message": "Pantalla completa"
-    },
-    "sourceWindow": {
-        "message": "Ventana"
-    },
-    "sourceTab": {
-        "message": "Pestaña"
-    },
     "recordingHint": {
-        "message": "Elige una fuente y pulsa Grabar."
+        "message": "Pulsa Grabar y elige una pantalla, ventana o pestaña."
     },
     "optsCamera": {
-        "message": "Facecam (ventana flotante)"
+        "message": "Facecam (Picture-in-Picture)"
     },
     "optsIncludeCamera": {
         "message": "Incluir cámara en la grabación"
@@ -241,5 +229,35 @@
     },
     "cameraClose": {
         "message": "Cerrar"
+    },
+    "cameraStartPip": {
+        "message": "Iniciar facecam"
+    },
+    "permsSection": {
+        "message": "Micrófono y cámara"
+    },
+    "permsHint": {
+        "message": "La grabación se ejecuta en segundo plano y no puede pedir estos permisos por sí sola. Concédelos una vez aquí para usar el micrófono y la facecam."
+    },
+    "permsGranted": {
+        "message": "Permisos concedidos ✓"
+    },
+    "permsMissing": {
+        "message": "Permisos aún no concedidos."
+    },
+    "permsDenied": {
+        "message": "Permiso denegado. Permite el micrófono y la cámara en la configuración del sitio para esta extensión."
+    },
+    "grantMedia": {
+        "message": "Permitir micrófono y cámara"
+    },
+    "warnMicUnavailable": {
+        "message": "La grabación comenzó, pero sin micrófono: no se concedió el permiso. Abre las opciones de la extensión y haz clic en \"Permitir micrófono y cámara\"."
+    },
+    "warnCameraUnavailable": {
+        "message": "La grabación comenzó, pero sin la cámara: no se concedió el permiso. Abre las opciones de la extensión y haz clic en \"Permitir micrófono y cámara\"."
+    },
+    "btnNewRecording": {
+        "message": "Nueva grabación"
     }
 }

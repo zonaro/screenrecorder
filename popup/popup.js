@@ -9,7 +9,7 @@
     };
 
     const settings = await chrome.storage.local.get({
-        sourceType: 'screen', withCamera: false, includeCamera: false,
+        withCamera: false, includeCamera: false,
         withMic: true, withSystemAudio: true, format: 'mp4',
         preset: 'balanced', resolution: 'original', fps: 30, bitrate: 5
     });
@@ -30,16 +30,6 @@
     $('bitrate').value = String(settings.bitrate);
     $('bitrateVal').textContent = settings.bitrate + ' Mbps';
     $('includeCamRow').style.display = settings.withCamera ? '' : 'none';
-
-    document.querySelectorAll('.source').forEach((b) => {
-        b.classList.toggle('active', b.dataset.source === settings.sourceType);
-        b.addEventListener('click', () => {
-            document.querySelectorAll('.source').forEach(x => x.classList.remove('active'));
-            b.classList.add('active');
-            settings.sourceType = b.dataset.source;
-            save();
-        });
-    });
 
     $('withCamera').onchange = () => { settings.withCamera = $('withCamera').checked; $('includeCamRow').style.display = settings.withCamera ? '' : 'none'; save(); };
     $('includeCamera').onchange = () => { settings.includeCamera = $('includeCamera').checked; save(); };
@@ -80,6 +70,7 @@
         if (!r || !r.ok) return;
         state.recording = r.recording;
         state.last = r.last;
+        state.elapsed = r.elapsed || 0;
         if (state.recording) showRecording();
         else if (state.last) showResult();
         else showSetup();
@@ -122,34 +113,52 @@
     });
 
     // --- record / stop ---
-    $('recordBtn').addEventListener('click', () => {
-        const sources = settings.sourceType === 'tab' ? ['tab']
-            : settings.sourceType === 'window' ? ['window', 'screen']
-                : ['screen', 'window'];
-        chrome.desktopCapture.chooseDesktopMedia(sources, async (streamId) => {
-            if (!streamId) return;
-            const msg = { type: 'START_RECORDING', streamId: streamId, ...buildSettings() };
-            const res = await chrome.runtime.sendMessage(msg);
-            if (res && res.ok) {
-                state.recording = true;
-                state.elapsed = 0;
-                if (settings.withCamera) chrome.runtime.sendMessage({ type: 'OPEN_CAMERA' });
-                showRecording();
-            } else {
-                alert(res && res.error ? res.error : 'Error');
-            }
+    // The source picker is opened by the offscreen document itself (see
+    // offscreen.js), so there is no stream id to hand around here.
+    $('recordBtn').addEventListener('click', async () => {
+        const res = await chrome.runtime.sendMessage({
+            type: 'START_RECORDING', ...buildSettings()
         });
+        if (res && res.ok) {
+            state.recording = true;
+            state.elapsed = 0;
+            if (settings.withCamera) chrome.runtime.sendMessage({ type: 'OPEN_CAMERA' });
+            showRecording();
+            // Recording is already running - these only say a track is missing.
+            // They arrive as i18n keys because the offscreen document that
+            // raised them has no access to chrome.i18n.
+            if (res.warnings && res.warnings.length) {
+                alert(res.warnings.map((k) => I18n.t(k)).join('\n\n'));
+            }
+        } else if (!res || res.error !== 'Cancelled') {
+            alert(res && res.error ? res.error : 'Error');
+        }
     });
 
     $('stopBtn').addEventListener('click', async () => {
+        $('stopBtn').disabled = true;
         const res = await chrome.runtime.sendMessage({ type: 'STOP_RECORDING' });
+        $('stopBtn').disabled = false;
         if (res && res.ok) {
             state.recording = false;
             if (settings.withCamera) chrome.runtime.sendMessage({ type: 'CLOSE_CAMERA' });
-            await refresh();
+            // Stopping is acknowledged immediately, but the file itself finishes
+            // encoding a moment later - the RECORDING_STOPPED listener above
+            // calls refresh() once it actually arrives and switches to the
+            // result screen.
         } else {
             alert(res && res.error ? res.error : 'Error');
         }
+    });
+
+    // The finished recording is kept in storage, so without this the popup
+    // would reopen on the result screen forever with no way back.
+    $('newRecordingBtn').addEventListener('click', async () => {
+        await chrome.runtime.sendMessage({ type: 'CLEAR_LAST' });
+        state.last = null;
+        state.elapsed = 0;
+        $('timer').textContent = '00:00';
+        showSetup();
     });
 
     // --- result actions ---

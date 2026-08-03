@@ -20,6 +20,31 @@
         $(id).onchange = () => chrome.storage.local.set({ [id]: $(id).value });
     });
 
+    // The offscreen recorder has no UI and therefore cannot show the
+    // mic/camera prompt itself - it has to be granted once from a real
+    // extension page like this one.
+    async function refreshMediaPerms() {
+        try {
+            const mic = await navigator.permissions.query({ name: 'microphone' });
+            const cam = await navigator.permissions.query({ name: 'camera' });
+            const ok = mic.state === 'granted' && cam.state === 'granted';
+            $('permsStatus').textContent = ok ? t('permsGranted') : t('permsMissing');
+            $('grantMedia').disabled = ok;
+        } catch (e) {
+            $('permsStatus').textContent = '';
+        }
+    }
+
+    $('grantMedia').onclick = async () => {
+        try {
+            const s = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+            s.getTracks().forEach(tr => tr.stop());
+        } catch (e) {
+            alert(t('permsDenied'));
+        }
+        refreshMediaPerms();
+    };
+
     async function refreshConnections() {
         const g = await chrome.runtime.sendMessage({ type: 'CHECK_GOOGLE' });
         const m = await chrome.runtime.sendMessage({ type: 'CHECK_MICROSOFT' });
@@ -40,5 +65,6 @@
     };
     $('disconnectMs').onclick = async () => { await chrome.runtime.sendMessage({ type: 'DISCONNECT_MICROSOFT' }); refreshConnections(); };
 
+    await refreshMediaPerms();
     await refreshConnections();
 })();

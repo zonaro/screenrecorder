@@ -11,23 +11,11 @@
     "popupTitle": {
         "message": "Gravador de Tela"
     },
-    "sourceLabel": {
-        "message": "Fonte de gravação"
-    },
-    "sourceScreen": {
-        "message": "Tela cheia"
-    },
-    "sourceWindow": {
-        "message": "Programa"
-    },
-    "sourceTab": {
-        "message": "Aba"
-    },
     "recordingHint": {
-        "message": "Escolha uma fonte e clique em Gravar."
+        "message": "Clique em Gravar e escolha uma tela, janela ou aba."
     },
     "optsCamera": {
-        "message": "Facecam (janela flutuante)"
+        "message": "Facecam (Picture-in-Picture)"
     },
     "optsIncludeCamera": {
         "message": "Incluir câmera na gravação"
@@ -241,5 +229,35 @@
     },
     "cameraClose": {
         "message": "Fechar"
+    },
+    "cameraStartPip": {
+        "message": "Iniciar facecam"
+    },
+    "permsSection": {
+        "message": "Microfone e câmera"
+    },
+    "permsHint": {
+        "message": "A gravação roda em segundo plano e não consegue pedir essas permissões sozinha. Conceda uma vez aqui para usar microfone e facecam."
+    },
+    "permsGranted": {
+        "message": "Permissões concedidas ✓"
+    },
+    "permsMissing": {
+        "message": "Permissões ainda não concedidas."
+    },
+    "permsDenied": {
+        "message": "Permissão negada. Libere o microfone e a câmera nas configurações do site para esta extensão."
+    },
+    "grantMedia": {
+        "message": "Permitir microfone e câmera"
+    },
+    "warnMicUnavailable": {
+        "message": "A gravação começou, mas sem microfone: a permissão não foi concedida. Abra as opções da extensão e clique em \"Permitir microfone e câmera\"."
+    },
+    "warnCameraUnavailable": {
+        "message": "A gravação começou, mas sem a câmera: a permissão não foi concedida. Abra as opções da extensão e clique em \"Permitir microfone e câmera\"."
+    },
+    "btnNewRecording": {
+        "message": "Nova gravação"
     }
 }

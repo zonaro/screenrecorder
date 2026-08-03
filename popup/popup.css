@@ -8,6 +8,13 @@
     --primary: #1a73e8;
 }
 
+/* An id/class rule that sets `display` beats the UA stylesheet's
+   `[hidden] { display: none }` - without this, elements like #progress
+   stay visible no matter what the script does. */
+[hidden] {
+    display: none !important;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -55,31 +62,6 @@ section {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 6px;
-}
-
-.sources {
-    display: flex;
-    gap: 6px;
-}
-
-.source {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 10px 4px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    cursor: pointer;
-    font-size: 11px;
-}
-
-.source.active {
-    border-color: var(--primary);
-    background: #1b2b44;
 }
 
 .toggle {

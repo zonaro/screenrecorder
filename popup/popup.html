@@ -14,15 +14,6 @@
 
     <section id="setup">
         <div class="group">
-            <span class="label" data-i18n="sourceLabel"></span>
-            <div class="sources">
-                <button class="source active" data-source="screen">🖥️<span data-i18n="sourceScreen"></span></button>
-                <button class="source" data-source="window">🪟<span data-i18n="sourceWindow"></span></button>
-                <button class="source" data-source="tab">📑<span data-i18n="sourceTab"></span></button>
-            </div>
-        </div>
-
-        <div class="group">
             <label class="toggle"><input type="checkbox" id="withCamera"><span data-i18n="optsCamera"></span></label>
             <label class="toggle sub" id="includeCamRow" style="display:none"><input type="checkbox"
                     id="includeCamera"><span data-i18n="optsIncludeCamera"></span></label>
@@ -100,6 +91,7 @@
             <progress id="progressBar" max="1" value="0"></progress>
             <span id="progressText">0%</span>
         </div>
+        <button id="newRecordingBtn" data-i18n="btnNewRecording"></button>
     </section>
 
     <footer>

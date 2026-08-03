@@ -6,8 +6,6 @@
     "default_locale": "en",
     "minimum_chrome_version": "126",
     "permissions": [
-        "desktopCapture",
-        "tabCapture",
         "offscreen",
         "storage",
         "downloads",
@@ -32,7 +30,7 @@
     "commands": {
         "toggle-recording": {
             "suggested_key": {
-                "default": "Ctrl+Shift+R"
+                "default": "Alt+Shift+R"
             },
             "description": "__MSG_cmdToggle__"
         }
