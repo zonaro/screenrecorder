@@ -259,5 +259,119 @@
     },
     "btnNewRecording": {
         "message": "New recording"
+    },
+    "btnUndo": {
+        "message": "Undo"
+    },
+    "btnRedo": {
+        "message": "Redo"
+    },
+    "timelineHint": {
+        "message": "Cuts in the middle stay glued together — drag a boundary and both clips move. Delete a clip to cut that part out of the video."
+    },
+    "trackVideo": {
+        "message": "Video"
+    },
+    "trackCaptions": {
+        "message": "Captions"
+    },
+    "itemDoodle": {
+        "message": "Doodle"
+    },
+    "btnBringForward": {
+        "message": "Bring forward"
+    },
+    "btnSendBackward": {
+        "message": "Send backward"
+    },
+    "btnDeleteItem": {
+        "message": "Delete item"
+    },
+    "doodleNew": {
+        "message": "New doodle"
+    },
+    "doodleAnimate": {
+        "message": "Draw on over time"
+    },
+    "itemSelected": {
+        "message": "Selected item"
+    },
+    "textHint": {
+        "message": "Drag the text on the preview to move it. Each item has its own timeline row for when it starts and ends."
+    },
+    "txtDuration": {
+        "message": "Duration (s)"
+    },
+    "btnAddCue": {
+        "message": "Add caption"
+    },
+    "btnImportSubs": {
+        "message": "Import SRT/VTT"
+    },
+    "btnSplitCue": {
+        "message": "Split"
+    },
+    "btnMergeCue": {
+        "message": "Merge next"
+    },
+    "btnDeleteCue": {
+        "message": "Delete"
+    },
+    "btnExportSrt": {
+        "message": "Save .srt"
+    },
+    "btnExportVtt": {
+        "message": "Save .vtt"
+    },
+    "btnDownloadSubs": {
+        "message": "Download subtitles"
+    },
+    "capText": {
+        "message": "Caption text"
+    },
+    "capShiftTitle": {
+        "message": "Sync"
+    },
+    "capShiftAmount": {
+        "message": "Shift all (s)"
+    },
+    "capStyle": {
+        "message": "Caption style"
+    },
+    "capBg": {
+        "message": "Background"
+    },
+    "capPosition": {
+        "message": "Position"
+    },
+    "capPosBottom": {
+        "message": "Bottom"
+    },
+    "capPosTop": {
+        "message": "Top"
+    },
+    "capPreview": {
+        "message": "Show captions in the preview"
+    },
+    "capBurn": {
+        "message": "Burn captions into the video"
+    },
+    "optsSubtitles": {
+        "message": "Subtitle file"
+    },
+    "subsNone": {
+        "message": "None"
+    },
+    "capNoRoom": {
+        "message": "There is no room for a new caption at the playhead."
+    },
+    "capImportEmpty": {
+        "message": "No captions were found in that file."
+    },
+    "capNothing": {
+        "message": "There are no captions to export."
+    },
+    "exportNothing": {
+        "message": "There is nothing left to export."
     }
 }

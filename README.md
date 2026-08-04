@@ -12,8 +12,11 @@ editor simples (cortes, crop, pan/zoom, doodles e texto) e integração com
 - Áudio do sistema + microfone (mixados)
 - Exportação MP4 ou WebM com presets de qualidade (Alta / Equilibrada / Compacta)
   e modo avançado (resolução, FPS e bitrate)
-- Editor de vídeo: cortes (trim/split), crop, pan & zoom (Ken Burns), rabiscos (doodles)
-  e textos com timeline
+- Editor de vídeo com timeline multi-pista: cortes (trim/split/apagar), crop,
+  pan & zoom (Ken Burns), rabiscos (doodles) e textos — cada item com sua própria
+  linha do tempo e ordem de empilhamento
+- Editor de legendas completo (criar, dividir, unir, sincronizar, importar) com
+  exportação do vídeo + arquivo `.srt` / `.vtt`
 - Upload para Google Drive, OneDrive e YouTube (uploads resumable)
 - Interface em Inglês, Português (Brasil) e Espanhol
 
@@ -53,6 +56,37 @@ editor simples (cortes, crop, pan/zoom, doodles e texto) e integração com
 3. Clique em **Iniciar gravação** e selecione a fonte na janela do Chrome
 4. Para parar, abra o popup e clique em **Parar**
 5. Baixe, edite ou envie para Drive / OneDrive / YouTube
+
+## Editor de vídeo
+
+A timeline usa o **tempo do vídeo original** como escala: cada faixa fica alinhada
+com o trecho que ela anota.
+
+### Cortes
+
+- **Dividir** parte o clipe sob o cursor em dois, e os dois ficam *colados*.
+- Arrastar uma divisa do meio move o fim de um corte **e o início do outro ao
+  mesmo tempo** (roll edit) — nunca aparece um buraco no meio do vídeo.
+- Só as pontas são livres: o primeiro corte pode **começar depois** e o último
+  pode **terminar antes**.
+- **Apagar corte** remove aquele trecho do vídeo: o corte anterior passa a pular
+  direto para o próximo, na prévia e na exportação.
+- As alças coladas aparecem em âmbar; as livres, em branco. `Ctrl+Z` / `Ctrl+Shift+Z`
+  desfazem e refazem.
+
+### Textos e rabiscos
+
+Cada texto ou rabisco ganha uma faixa própria, onde se arrasta o início, o fim e a
+posição do item. As faixas são listadas da frente para trás — **▲**/**▼** mudam
+qual item fica por cima do outro.
+
+### Legendas
+
+Legendas são escritas sobre o vídeo original e convertidas para o tempo final na
+exportação: uma legenda dentro de um trecho apagado some, e uma legenda cortada ao
+meio é aparada. Dá para importar `.srt`/`.vtt` (convertidos de volta para o tempo
+original), dividir, unir, deslocar tudo para sincronizar, escolher estilo/posição e
+opcionalmente **gravar as legendas no vídeo** (burn-in) além do arquivo separado.
 
 ## Observações técnicas
 

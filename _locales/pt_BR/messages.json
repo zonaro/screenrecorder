@@ -259,5 +259,119 @@
     },
     "btnNewRecording": {
         "message": "Nova gravação"
+    },
+    "btnUndo": {
+        "message": "Desfazer"
+    },
+    "btnRedo": {
+        "message": "Refazer"
+    },
+    "timelineHint": {
+        "message": "Cortes no meio ficam colados — arraste a divisa e os dois clipes se movem juntos. Apague um clipe para tirar aquela parte do vídeo."
+    },
+    "trackVideo": {
+        "message": "Vídeo"
+    },
+    "trackCaptions": {
+        "message": "Legendas"
+    },
+    "itemDoodle": {
+        "message": "Rabisco"
+    },
+    "btnBringForward": {
+        "message": "Trazer para frente"
+    },
+    "btnSendBackward": {
+        "message": "Enviar para trás"
+    },
+    "btnDeleteItem": {
+        "message": "Apagar item"
+    },
+    "doodleNew": {
+        "message": "Novo rabisco"
+    },
+    "doodleAnimate": {
+        "message": "Desenhar aos poucos"
+    },
+    "itemSelected": {
+        "message": "Item selecionado"
+    },
+    "textHint": {
+        "message": "Arraste o texto na prévia para movê-lo. Cada item tem sua própria linha do tempo com início e fim."
+    },
+    "txtDuration": {
+        "message": "Duração (s)"
+    },
+    "btnAddCue": {
+        "message": "Adicionar legenda"
+    },
+    "btnImportSubs": {
+        "message": "Importar SRT/VTT"
+    },
+    "btnSplitCue": {
+        "message": "Dividir"
+    },
+    "btnMergeCue": {
+        "message": "Unir próxima"
+    },
+    "btnDeleteCue": {
+        "message": "Apagar"
+    },
+    "btnExportSrt": {
+        "message": "Salvar .srt"
+    },
+    "btnExportVtt": {
+        "message": "Salvar .vtt"
+    },
+    "btnDownloadSubs": {
+        "message": "Baixar legendas"
+    },
+    "capText": {
+        "message": "Texto da legenda"
+    },
+    "capShiftTitle": {
+        "message": "Sincronia"
+    },
+    "capShiftAmount": {
+        "message": "Deslocar tudo (s)"
+    },
+    "capStyle": {
+        "message": "Estilo da legenda"
+    },
+    "capBg": {
+        "message": "Fundo"
+    },
+    "capPosition": {
+        "message": "Posição"
+    },
+    "capPosBottom": {
+        "message": "Embaixo"
+    },
+    "capPosTop": {
+        "message": "Em cima"
+    },
+    "capPreview": {
+        "message": "Mostrar legendas na prévia"
+    },
+    "capBurn": {
+        "message": "Gravar legendas no vídeo"
+    },
+    "optsSubtitles": {
+        "message": "Arquivo de legenda"
+    },
+    "subsNone": {
+        "message": "Nenhum"
+    },
+    "capNoRoom": {
+        "message": "Não há espaço para uma nova legenda na posição do cursor."
+    },
+    "capImportEmpty": {
+        "message": "Nenhuma legenda encontrada nesse arquivo."
+    },
+    "capNothing": {
+        "message": "Não há legendas para exportar."
+    },
+    "exportNothing": {
+        "message": "Não sobrou nada para exportar."
     }
 }

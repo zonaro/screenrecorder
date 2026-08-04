@@ -6,6 +6,8 @@
     --muted: #9aa0a6;
     --primary: #1a73e8;
     --accent: #e53935;
+    --labelw: 132px;
+    --rowh: 30px;
 }
 
 * {
@@ -64,6 +66,11 @@ button:hover {
     border-color: var(--muted);
 }
 
+button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
 button.primary {
     background: var(--primary);
     border-color: var(--primary);
@@ -119,6 +126,8 @@ main {
     white-space: nowrap;
 }
 
+/* ---------------- timeline ---------------- */
+
 #timelineWrap {
     background: var(--panel);
     border: 1px solid var(--border);
@@ -126,30 +135,175 @@ main {
     padding: 10px;
 }
 
-#timeline {
-    position: relative;
-    height: 46px;
+.tline-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.hint {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+#tlGrid {
+    display: flex;
+    align-items: flex-start;
+    max-height: 34vh;
+    overflow-y: auto;
     background: #101318;
     border-radius: 6px;
+    padding: 6px;
+    gap: 8px;
+}
+
+#tlLabels {
+    width: var(--labelw);
+    flex: none;
+}
+
+#tlLanesWrap {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+#tlLanes {
+    position: relative;
+}
+
+.tl-row {
+    height: var(--rowh);
+    margin-bottom: 4px;
+}
+
+.tl-row.ruler {
+    height: 18px;
+}
+
+.tl-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 6px;
+    font-size: 11px;
+    color: var(--muted);
+    background: #171b21;
+    border: 1px solid var(--border);
+    border-radius: 4px;
     overflow: hidden;
 }
 
-.segment {
-    position: absolute;
-    top: 4px;
-    bottom: 4px;
-    background: #25496e;
-    border-radius: 4px;
-    border: 1px solid #3a6ea8;
+.tl-label.ruler {
+    background: none;
+    border: none;
+}
+
+.tl-label.selected {
+    border-color: var(--primary);
+    color: var(--text);
+}
+
+.tl-label .name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     cursor: pointer;
 }
 
-.segment.active {
+.tl-label .mini {
+    padding: 1px 4px;
+    font-size: 10px;
+    line-height: 1.2;
+    border-radius: 3px;
+}
+
+.tl-lane {
+    position: relative;
+    background: #171b21;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tl-lane.ruler {
+    background: none;
+    overflow: visible;
+}
+
+.tick {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-left: 1px solid #2c313a;
+    padding-left: 3px;
+    font-size: 9px;
+    color: #6b7280;
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+}
+
+.clip {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    font-size: 10px;
+    line-height: 22px;
+    padding: 0 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #dfe8f5;
+    user-select: none;
+}
+
+.clip.video {
+    background: #25496e;
+    border: 1px solid #3a6ea8;
+}
+
+.clip.video.active {
     background: var(--primary);
     border-color: #7fb2ff;
 }
 
-.segment .handle {
+.clip.text {
+    background: #4a3a6b;
+    border: 1px solid #7a63ad;
+}
+
+.clip.doodle {
+    background: #6b3a3a;
+    border: 1px solid #ad6363;
+}
+
+.clip.cue {
+    background: #2f5d4a;
+    border: 1px solid #4c9174;
+}
+
+.clip .lbl {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.clip.item {
+    cursor: grab;
+}
+
+.clip.selected {
+    outline: 1px solid #fff;
+    outline-offset: -1px;
+}
+
+.clip .handle {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -158,25 +312,44 @@ main {
     background: rgba(255, 255, 255, 0.35);
 }
 
-.segment .handle.left {
+.clip .handle.left {
     left: 0;
     border-radius: 4px 0 0 4px;
 }
 
-.segment .handle.right {
+.clip .handle.right {
     right: 0;
     border-radius: 0 4px 4px 0;
 }
 
-.tline-actions {
-    display: flex;
-    gap: 6px;
-    margin-top: 8px;
-    flex-wrap: wrap;
+.clip .handle.glued {
+    background: rgba(255, 214, 102, 0.75);
 }
 
+#playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    margin-left: -1px;
+    background: var(--accent);
+    pointer-events: none;
+    z-index: 3;
+}
+
+#playhead::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -4px;
+    border: 5px solid transparent;
+    border-top-color: var(--accent);
+}
+
+/* ---------------- side panels ---------------- */
+
 #right {
-    width: 260px;
+    width: 280px;
     border-left: 1px solid var(--border);
     padding: 12px;
     overflow-y: auto;
@@ -210,7 +383,7 @@ main {
     font-size: 12px;
     color: var(--muted);
     text-transform: uppercase;
-    margin: 10px 0 4px;
+    margin: 12px 0 4px;
 }
 
 .field {
@@ -228,12 +401,14 @@ main {
 
 .field input[type="range"] {
     flex: 1.4;
+    min-width: 0;
 }
 
 .field input[type="number"],
 .field input[type="text"],
 .field select {
     flex: 1.4;
+    min-width: 0;
     background: var(--bg);
     color: var(--text);
     border: 1px solid var(--border);
@@ -241,30 +416,68 @@ main {
     padding: 5px 8px;
 }
 
-#overlayList {
+#textValue,
+#cueText {
+    width: 100%;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font: inherit;
+    resize: vertical;
+    margin: 8px 0 4px;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 8px 0;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+#cueList {
+    max-height: 30vh;
+    overflow-y: auto;
     margin: 8px 0;
 }
 
-.overlay-item {
+.cue-item {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 8px;
+    align-items: baseline;
+    gap: 6px;
+    padding: 5px 8px;
     margin: 4px 0;
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 6px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 11px;
 }
 
-.overlay-item.active {
+.cue-item.active {
     border-color: var(--primary);
 }
 
-.overlay-item .mini {
-    padding: 2px 6px;
-    font-size: 11px;
+.cue-item .idx {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.cue-item .tc {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.cue-item .txt {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* An id/class rule that sets `display` beats the UA stylesheet's
@@ -286,7 +499,7 @@ main {
 }
 
 #exportPanel>* {
-    width: 360px;
+    width: 380px;
 }
 
 #exportPanel h3 {
@@ -296,6 +509,10 @@ main {
 #exportPanel select,
 #exportPanel input {
     width: 100%;
+}
+
+#exportPanel .check input {
+    width: auto;
 }
 
 #exportProgressWrap {

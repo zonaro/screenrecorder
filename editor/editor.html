@@ -11,6 +11,8 @@
         <span class="logo">🎬</span>
         <h1 data-i18n="editorTitle"></h1>
         <div class="spacer"></div>
+        <button id="undoBtn" data-i18n="btnUndo"></button>
+        <button id="redoBtn" data-i18n="btnRedo"></button>
         <button id="exportBtn" class="primary" data-i18n="btnExport"></button>
         <button id="backBtn" data-i18n="btnBack"></button>
     </header>
@@ -25,12 +27,20 @@
                 <span id="timeLabel"></span>
             </div>
             <div id="timelineWrap">
-                <div id="timeline"></div>
                 <div class="tline-actions">
                     <button id="splitBtn" data-i18n="btnSplit"></button>
                     <button id="deleteBtn" data-i18n="btnDeleteSegment"></button>
                     <button id="clearCrop" data-i18n="btnClearCrop"></button>
                     <button id="clearPanZoom" data-i18n="btnClearPanZoom"></button>
+                    <span class="spacer"></span>
+                    <span id="tlHint" class="hint" data-i18n="timelineHint"></span>
+                </div>
+                <div id="tlGrid">
+                    <div id="tlLabels"></div>
+                    <div id="tlLanesWrap">
+                        <div id="tlLanes"></div>
+                        <div id="playhead"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -42,6 +52,7 @@
                 <button class="tool" data-tool="panzoom" title="Pan Zoom">🔍</button>
                 <button class="tool" data-tool="doodle" title="Doodle">✏️</button>
                 <button class="tool" data-tool="text" title="Text">T</button>
+                <button class="tool" data-tool="captions" title="Captions">💬</button>
             </div>
 
             <div id="panelCrop" class="panel" hidden>
@@ -68,16 +79,31 @@
             </div>
 
             <div id="panelDoodle" class="panel" hidden>
+                <h3 data-i18n="doodleNew"></h3>
                 <div class="field"><span data-i18n="txtColor"></span><input type="color" id="doodleColor"
                         value="#ff1744"></div>
                 <div class="field"><span data-i18n="txtStrokeWidth"></span><input type="range" id="doodleWidth" min="2"
                         max="40" value="8"></div>
+                <div class="field"><span data-i18n="txtDuration"></span><input type="number" id="doodleDuration"
+                        min="0.2" step="0.5" value="4"></div>
                 <p data-i18n="doodleHint"></p>
+                <div id="doodleProps" hidden>
+                    <h3 data-i18n="itemSelected"></h3>
+                    <div class="field"><span data-i18n="txtColor"></span><input type="color" id="dSelColor"></div>
+                    <div class="field"><span data-i18n="txtStrokeWidth"></span><input type="range" id="dSelWidth" min="2"
+                            max="40"></div>
+                    <label class="check"><input type="checkbox" id="dSelAnimate"><span
+                            data-i18n="doodleAnimate"></span></label>
+                    <div class="field"><span data-i18n="txtStart"></span><input type="number" id="dSelStart" step="0.1">
+                    </div>
+                    <div class="field"><span data-i18n="txtEnd"></span><input type="number" id="dSelEnd" step="0.1">
+                    </div>
+                </div>
             </div>
 
             <div id="panelText" class="panel" hidden>
                 <button id="addTextBtn" data-i18n="btnAddText"></button>
-                <div id="overlayList"></div>
+                <p data-i18n="textHint"></p>
                 <div id="textProps" hidden>
                     <input type="text" id="textValue" data-i18n-attr="placeholder|txtText">
                     <div class="field"><span data-i18n="txtColor"></span><input type="color" id="textColor"
@@ -88,6 +114,56 @@
                     </div>
                     <div class="field"><span data-i18n="txtEnd"></span><input type="number" id="textEnd" step="0.1">
                     </div>
+                    <div class="row">
+                        <button id="textForward" data-i18n="btnBringForward"></button>
+                        <button id="textBackward" data-i18n="btnSendBackward"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panelCaptions" class="panel" hidden>
+                <div class="row">
+                    <button id="addCueBtn" class="primary" data-i18n="btnAddCue"></button>
+                    <button id="importSubsBtn" data-i18n="btnImportSubs"></button>
+                </div>
+                <input type="file" id="subsFile" accept=".srt,.vtt,text/plain" hidden>
+                <div id="cueList"></div>
+                <div id="cueProps" hidden>
+                    <textarea id="cueText" rows="3" data-i18n-attr="placeholder|capText"></textarea>
+                    <div class="field"><span data-i18n="txtStart"></span><input type="number" id="cueStart" step="0.1">
+                    </div>
+                    <div class="field"><span data-i18n="txtEnd"></span><input type="number" id="cueEnd" step="0.1"></div>
+                    <div class="row">
+                        <button id="splitCueBtn" data-i18n="btnSplitCue"></button>
+                        <button id="mergeCueBtn" data-i18n="btnMergeCue"></button>
+                        <button id="delCueBtn" data-i18n="btnDeleteCue"></button>
+                    </div>
+                </div>
+                <h3 data-i18n="capShiftTitle"></h3>
+                <div class="field"><span data-i18n="capShiftAmount"></span><input type="number" id="capShift" step="0.1"
+                        value="0.5"></div>
+                <div class="row">
+                    <button id="capShiftBack">−</button>
+                    <button id="capShiftFwd">+</button>
+                </div>
+                <h3 data-i18n="capStyle"></h3>
+                <div class="field"><span data-i18n="txtSize"></span><input type="range" id="capSize" min="0.03"
+                        max="0.12" step="0.005" value="0.055"></div>
+                <div class="field"><span data-i18n="txtColor"></span><input type="color" id="capColor" value="#ffffff">
+                </div>
+                <div class="field"><span data-i18n="capBg"></span><input type="range" id="capBg" min="0" max="1"
+                        step="0.05" value="0.55"></div>
+                <div class="field"><span data-i18n="capPosition"></span>
+                    <select id="capPosition">
+                        <option value="bottom" data-i18n="capPosBottom"></option>
+                        <option value="top" data-i18n="capPosTop"></option>
+                    </select>
+                </div>
+                <label class="check"><input type="checkbox" id="capPreview" checked><span
+                        data-i18n="capPreview"></span></label>
+                <div class="row">
+                    <button id="dlSrtBtn" data-i18n="btnExportSrt"></button>
+                    <button id="dlVttBtn" data-i18n="btnExportVtt"></button>
                 </div>
             </div>
         </aside>
@@ -120,15 +196,28 @@
             <input type="range" id="exportBitrate" min="1" max="16" step="0.5" value="5"><b id="exportBitrateVal">5
                 Mbps</b>
         </div>
+        <div class="field"><span data-i18n="optsSubtitles"></span>
+            <select id="exportSubs">
+                <option value="srt">SRT</option>
+                <option value="vtt">WebVTT</option>
+                <option value="none" data-i18n="subsNone"></option>
+            </select>
+        </div>
+        <label class="check"><input type="checkbox" id="exportBurn"><span data-i18n="capBurn"></span></label>
         <div id="exportProgressWrap" hidden>
             <progress id="exportProgress" max="1" value="0"></progress>
             <span id="exportPct">0%</span>
         </div>
-        <div class="row" id="exportResult" hidden>
-            <button id="dlExport" class="primary" data-i18n="btnDownloadVideo"></button>
-            <button id="upExportDrive" data-i18n="uploadDrive"></button>
-            <button id="upExportOneDrive" data-i18n="uploadOneDrive"></button>
-            <button id="upExportYoutube" data-i18n="uploadYouTube"></button>
+        <div id="exportResult" hidden>
+            <div class="row">
+                <button id="dlExport" class="primary" data-i18n="btnDownloadVideo"></button>
+                <button id="dlSubs" data-i18n="btnDownloadSubs"></button>
+            </div>
+            <div class="row">
+                <button id="upExportDrive" data-i18n="uploadDrive"></button>
+                <button id="upExportOneDrive" data-i18n="uploadOneDrive"></button>
+                <button id="upExportYoutube" data-i18n="uploadYouTube"></button>
+            </div>
         </div>
         <div class="row end">
             <button id="exportCancel" data-i18n="btnClose"></button>

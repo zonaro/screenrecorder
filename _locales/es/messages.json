@@ -259,5 +259,119 @@
     },
     "btnNewRecording": {
         "message": "Nueva grabación"
+    },
+    "btnUndo": {
+        "message": "Deshacer"
+    },
+    "btnRedo": {
+        "message": "Rehacer"
+    },
+    "timelineHint": {
+        "message": "Los cortes intermedios quedan pegados: arrastra un límite y los dos clips se mueven. Borra un clip para quitar esa parte del vídeo."
+    },
+    "trackVideo": {
+        "message": "Vídeo"
+    },
+    "trackCaptions": {
+        "message": "Subtítulos"
+    },
+    "itemDoodle": {
+        "message": "Garabato"
+    },
+    "btnBringForward": {
+        "message": "Traer adelante"
+    },
+    "btnSendBackward": {
+        "message": "Enviar atrás"
+    },
+    "btnDeleteItem": {
+        "message": "Eliminar elemento"
+    },
+    "doodleNew": {
+        "message": "Nuevo garabato"
+    },
+    "doodleAnimate": {
+        "message": "Dibujar progresivamente"
+    },
+    "itemSelected": {
+        "message": "Elemento seleccionado"
+    },
+    "textHint": {
+        "message": "Arrastra el texto en la vista previa para moverlo. Cada elemento tiene su propia pista con inicio y fin."
+    },
+    "txtDuration": {
+        "message": "Duración (s)"
+    },
+    "btnAddCue": {
+        "message": "Añadir subtítulo"
+    },
+    "btnImportSubs": {
+        "message": "Importar SRT/VTT"
+    },
+    "btnSplitCue": {
+        "message": "Dividir"
+    },
+    "btnMergeCue": {
+        "message": "Unir siguiente"
+    },
+    "btnDeleteCue": {
+        "message": "Eliminar"
+    },
+    "btnExportSrt": {
+        "message": "Guardar .srt"
+    },
+    "btnExportVtt": {
+        "message": "Guardar .vtt"
+    },
+    "btnDownloadSubs": {
+        "message": "Descargar subtítulos"
+    },
+    "capText": {
+        "message": "Texto del subtítulo"
+    },
+    "capShiftTitle": {
+        "message": "Sincronía"
+    },
+    "capShiftAmount": {
+        "message": "Desplazar todo (s)"
+    },
+    "capStyle": {
+        "message": "Estilo del subtítulo"
+    },
+    "capBg": {
+        "message": "Fondo"
+    },
+    "capPosition": {
+        "message": "Posición"
+    },
+    "capPosBottom": {
+        "message": "Abajo"
+    },
+    "capPosTop": {
+        "message": "Arriba"
+    },
+    "capPreview": {
+        "message": "Mostrar subtítulos en la vista previa"
+    },
+    "capBurn": {
+        "message": "Incrustar subtítulos en el vídeo"
+    },
+    "optsSubtitles": {
+        "message": "Archivo de subtítulos"
+    },
+    "subsNone": {
+        "message": "Ninguno"
+    },
+    "capNoRoom": {
+        "message": "No hay espacio para un subtítulo nuevo en la posición actual."
+    },
+    "capImportEmpty": {
+        "message": "No se encontraron subtítulos en ese archivo."
+    },
+    "capNothing": {
+        "message": "No hay subtítulos que exportar."
+    },
+    "exportNothing": {
+        "message": "No queda nada que exportar."
     }
 }
