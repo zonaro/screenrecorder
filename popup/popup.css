@@ -209,6 +209,8 @@ button.danger {
 footer {
     border-top: 1px solid var(--border);
     padding: 8px 14px;
+    display: flex;
+    justify-content: space-between;
 }
 
 footer a {

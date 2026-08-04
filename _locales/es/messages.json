@@ -373,5 +373,32 @@
     },
     "exportNothing": {
         "message": "No queda nada que exportar."
+    },
+    "btnRecordings": {
+        "message": "Mis grabaciones"
+    },
+    "recordingsLibrary": {
+        "message": "Biblioteca de Grabaciones"
+    },
+    "recordingsEmpty": {
+        "message": "Aún no hay grabaciones. Empieza a grabar y aparecerán aquí."
+    },
+    "deleteRecording": {
+        "message": "Eliminar grabación"
+    },
+    "deleteConfirm": {
+        "message": "¿Seguro que quieres eliminar esta grabación? Esta acción no se puede deshacer."
+    },
+    "deleteAllConfirm": {
+        "message": "¿Seguro que quieres eliminar TODAS las grabaciones? Esta acción no se puede deshacer."
+    },
+    "btnClearAll": {
+        "message": "Eliminar todas"
+    },
+    "btnBackToPopup": {
+        "message": "Volver"
+    },
+    "uploadPrompt": {
+        "message": "Subir a (drive / onedrive / youtube):"
     }
 }

@@ -373,5 +373,32 @@
     },
     "exportNothing": {
         "message": "There is nothing left to export."
+    },
+    "btnRecordings": {
+        "message": "My recordings"
+    },
+    "recordingsLibrary": {
+        "message": "Recordings Library"
+    },
+    "recordingsEmpty": {
+        "message": "No recordings yet. Start recording and they will appear here."
+    },
+    "deleteRecording": {
+        "message": "Delete recording"
+    },
+    "deleteConfirm": {
+        "message": "Are you sure you want to delete this recording? This cannot be undone."
+    },
+    "deleteAllConfirm": {
+        "message": "Are you sure you want to delete ALL recordings? This cannot be undone."
+    },
+    "btnClearAll": {
+        "message": "Delete all"
+    },
+    "btnBackToPopup": {
+        "message": "Back"
+    },
+    "uploadPrompt": {
+        "message": "Upload to (drive / onedrive / youtube):"
     }
 }

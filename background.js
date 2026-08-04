@@ -1,5 +1,5 @@
 // background.js - service worker: orchestration, auth and uploads.
-importScripts('lib/auth.js', 'lib/upload.js');
+importScripts('lib/auth.js', 'lib/upload.js', 'lib/recordings-db.js');
 
 // The service worker can be killed by Chrome at any time while idle; any
 // state kept only in JS variables (like a plain object here) is lost when
@@ -124,6 +124,11 @@ async function handleMessage(msg) {
             };
         }
         case 'CLEAR_LAST': {
+            // Revoke the blob URL to free memory before removing the reference.
+            const data = await chrome.storage.local.get('lastRecording');
+            if (data.lastRecording && data.lastRecording.url) {
+                try { URL.revokeObjectURL(data.lastRecording.url); } catch (e) { }
+            }
             await chrome.storage.local.remove(['lastRecording', 'elapsed']);
             return { ok: true };
         }
@@ -187,7 +192,85 @@ async function handleMessage(msg) {
             await setRecordingState(false, 0);
             chrome.action.setBadgeText({ text: '' });
             await chrome.storage.local.set({ lastRecording: last, elapsed: 0 });
+            // Persist the blob in IndexedDB so it survives browser restarts.
+            try {
+                const blob = await (await fetch(msg.blobUrl)).blob();
+                await RecordingsDB.save({
+                    name: last.name,
+                    blob: blob,
+                    size: last.size,
+                    duration: last.duration,
+                    mime: last.mime,
+                    ext: last.ext
+                });
+            } catch (e) {
+                // Non-fatal: the recording is still available via blobUrl for this session.
+                console.error('Failed to persist recording to IndexedDB:', e);
+            }
             return { ok: true };
+        }
+        case 'SAVE_RECORDING': {
+            // Manual save: caller provides { name, blob (or url), size, duration, mime, ext }.
+            try {
+                let blob = msg.blob;
+                if (!blob && msg.url) blob = await (await fetch(msg.url)).blob();
+                const result = await RecordingsDB.save({
+                    name: msg.name,
+                    blob: blob,
+                    size: msg.size || (blob && blob.size),
+                    duration: msg.duration || 0,
+                    mime: msg.mime || (blob && blob.type),
+                    ext: msg.ext || 'webm'
+                });
+                return { ok: true, recording: result };
+            } catch (e) {
+                return { ok: false, error: e && e.message ? e.message : String(e) };
+            }
+        }
+        case 'GET_ALL_RECORDINGS': {
+            try {
+                const list = await RecordingsDB.getAll();
+                return { ok: true, recordings: list };
+            } catch (e) {
+                return { ok: false, error: e && e.message ? e.message : String(e) };
+            }
+        }
+        case 'GET_RECORDING': {
+            try {
+                const rec = await RecordingsDB.getById(msg.id);
+                if (!rec) return { ok: false, error: 'Recording not found' };
+                // Revoke old URL if provided to prevent leaks.
+                if (msg.revokeOldUrl) {
+                    try { URL.revokeObjectURL(msg.revokeOldUrl); } catch (e) { }
+                }
+                const url = URL.createObjectURL(rec.blob);
+                return {
+                    ok: true,
+                    recording: { id: rec.id, name: rec.name, url: url, size: rec.size, duration: rec.duration, mime: rec.mime, ext: rec.ext, createdAt: rec.createdAt }
+                };
+            } catch (e) {
+                return { ok: false, error: e && e.message ? e.message : String(e) };
+            }
+        }
+        case 'DELETE_RECORDING': {
+            try {
+                // Revoke blob URL if provided.
+                if (msg.revokeUrl) {
+                    try { URL.revokeObjectURL(msg.revokeUrl); } catch (e) { }
+                }
+                await RecordingsDB.remove(msg.id);
+                return { ok: true };
+            } catch (e) {
+                return { ok: false, error: e && e.message ? e.message : String(e) };
+            }
+        }
+        case 'DELETE_ALL_RECORDINGS': {
+            try {
+                await RecordingsDB.clear();
+                return { ok: true };
+            } catch (e) {
+                return { ok: false, error: e && e.message ? e.message : String(e) };
+            }
         }
         default:
             return { ok: false, error: 'Unknown message: ' + msg.type };

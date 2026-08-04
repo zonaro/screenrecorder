@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="recordings.css">
+</head>
+
+<body>
+    <header>
+        <span class="logo">🎥</span>
+        <h1 data-i18n="recordingsLibrary"></h1>
+    </header>
+
+    <section id="recordingsList">
+        <p id="emptyMsg" class="hint" data-i18n="recordingsEmpty" hidden></p>
+        <div id="recordingsContainer"></div>
+    </section>
+
+    <footer>
+        <a href="popup.html" data-i18n="btnBackToPopup"></a>
+        <a href="#" id="clearAllBtn" data-i18n="btnClearAll"></a>
+    </footer>
+
+    <script src="../lib/i18n.js"></script>
+    <script src="recordings.js"></script>
+</body>
+
+</html>
