@@ -79,32 +79,22 @@
     });
 
     async function downloadRecording(id) {
-        const res = await chrome.runtime.sendMessage({ type: 'GET_RECORDING', id: id });
-        if (!res || !res.ok) return;
-        chrome.runtime.sendMessage({ type: 'DOWNLOAD', url: res.recording.url, filename: res.recording.name });
+        const res = await chrome.runtime.sendMessage({ type: 'DOWNLOAD_RECORDING', id: id });
+        if (!res || !res.ok) alert(res && res.error ? res.error : 'Download failed');
     }
 
     async function editRecording(id) {
-        const res = await chrome.runtime.sendMessage({ type: 'GET_RECORDING', id: id });
-        if (!res || !res.ok) return;
-        chrome.runtime.sendMessage({ type: 'OPEN_EDITOR', url: res.recording.url, name: res.recording.name });
+        const res = await chrome.runtime.sendMessage({ type: 'OPEN_EDITOR_RECORDING', id: id });
+        if (!res || !res.ok) alert(res && res.error ? res.error : 'Failed to open editor');
     }
 
     async function uploadRecording(id) {
-        const res = await chrome.runtime.sendMessage({ type: 'GET_RECORDING', id: id });
-        if (!res || !res.ok) return;
-        // Open the popup-style upload picker or prompt for service.
         const service = prompt(t('uploadPrompt') || 'Upload to (drive / onedrive / youtube):');
         if (!service) return;
         const svc = service.trim().toLowerCase();
         if (svc !== 'drive' && svc !== 'onedrive' && svc !== 'youtube') return;
-        chrome.runtime.sendMessage({
-            type: 'UPLOAD',
-            service: svc,
-            url: res.recording.url,
-            name: res.recording.name,
-            ext: res.recording.ext
-        });
+        const res = await chrome.runtime.sendMessage({ type: 'UPLOAD_RECORDING', id: id, service: svc });
+        if (!res || !res.ok) alert(res && res.error ? res.error : 'Upload failed');
     }
 
     async function deleteRecording(id) {
