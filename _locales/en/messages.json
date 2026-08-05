@@ -15,10 +15,7 @@
         "message": "Click Record and pick a screen, window or tab."
     },
     "optsCamera": {
-        "message": "Facecam (Picture-in-Picture)"
-    },
-    "optsIncludeCamera": {
-        "message": "Include camera in recording"
+        "message": "Facecam"
     },
     "optsMic": {
         "message": "Microphone"
@@ -229,9 +226,6 @@
     },
     "cameraClose": {
         "message": "Close"
-    },
-    "cameraStartPip": {
-        "message": "Start facecam"
     },
     "permsSection": {
         "message": "Microphone and camera"

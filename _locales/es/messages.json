@@ -15,10 +15,7 @@
         "message": "Pulsa Grabar y elige una pantalla, ventana o pestaña."
     },
     "optsCamera": {
-        "message": "Facecam (Picture-in-Picture)"
-    },
-    "optsIncludeCamera": {
-        "message": "Incluir cámara en la grabación"
+        "message": "Facecam"
     },
     "optsMic": {
         "message": "Micrófono"
@@ -229,9 +226,6 @@
     },
     "cameraClose": {
         "message": "Cerrar"
-    },
-    "cameraStartPip": {
-        "message": "Iniciar facecam"
     },
     "permsSection": {
         "message": "Micrófono y cámara"

@@ -1,12 +1,43 @@
 // camera-pip.js — runs inside the Document Picture-in-Picture window.
-// Handles the facecam controls so they keep working even if the host
-// window is throttled while minimized.
-const pipVideo = document.querySelector('#cam');
-const pipMirror = document.querySelector('#pipControls #mirror');
-const pipClose = document.querySelector('#pipControls #close');
+// Auto-starts the facecam and watches for the stop signal via storage.
+(async () => {
+    await I18n.init();
+    const video = document.getElementById('cam');
+    let stream = null;
 
-pipMirror.addEventListener('click', () => pipVideo.classList.toggle('mirrored'));
-pipClose.addEventListener('click', () => window.close());
-window.addEventListener('pagehide', () => {
-    if (typeof window.closeCamera === 'function') window.closeCamera();
-});
+    // --- Start camera automatically ---
+    try {
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+            audio: false
+        });
+        video.srcObject = stream;
+        await video.play();
+    } catch (e) {
+        video.style.display = 'none';
+    }
+
+    // --- Mirror toggle ---
+    document.getElementById('mirror').addEventListener('click', () => {
+        video.classList.toggle('mirrored');
+    });
+
+    // --- Close button ---
+    document.getElementById('close').addEventListener('click', () => {
+        if (stream) stream.getTracks().forEach(t => t.stop());
+        window.close();
+    });
+
+    // --- Watch for stop signal from popup (via storage) ---
+    chrome.storage.onChanged.addListener((changes) => {
+        if (changes.cameraPipActive && changes.cameraPipActive.newValue === false) {
+            if (stream) stream.getTracks().forEach(t => t.stop());
+            window.close();
+        }
+    });
+
+    // --- Cleanup when the PiP window is closed (OS close or pagehide) ---
+    window.addEventListener('pagehide', () => {
+        if (stream) stream.getTracks().forEach(t => t.stop());
+    });
+})();

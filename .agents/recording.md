@@ -9,7 +9,7 @@ A gravação roda em um **offscreen document** (requisito do Manifest V3). O `of
 1. **Captura:** `getDisplayMedia()` com opção de áudio do sistema (`systemAudio: 'include'`)
 2. **Resolução:** se a resolução escolhida ≠ original, escala proporcionalmente (ex: 1080p → `vh=1080`)
 3. **Áudio:** `AudioContext` + `MediaStreamDestination` — mixa áudio do sistema + microfone via `createMediaStreamSource().connect(dest)`
-4. **Câmera:** se `withCamera && includeCamera`, captura `getUserMedia({video: 640x480})` e desenha como PiP no canvas (canto inferior direito, 22% da largura)
+4. **Câmera:** se `withCamera`, captura `getUserMedia({video: 640x480})` e desenha como PiP no canvas (canto inferior direito, 22% da largura)
 5. **Canvas draw loop:** usa `setInterval` (não `requestAnimationFrame`, que não dispara em offscreen)
 6. **MediaRecorder:** suporta MP4 (Chrome 126+) e WebM (VP9/VP8 fallback). Chunks a cada 1s
 7. **Fim:** `onstop` cria `Blob`, gera `blobUrl` via `URL.createObjectURL()`, envia `RECORDING_STOPPED`

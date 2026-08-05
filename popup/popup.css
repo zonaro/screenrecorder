@@ -72,11 +72,6 @@ section {
     cursor: pointer;
 }
 
-.toggle.sub {
-    padding-left: 22px;
-    color: var(--muted);
-}
-
 .toggle input {
     accent-color: var(--primary);
 }

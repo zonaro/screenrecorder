@@ -42,7 +42,7 @@ async function start(msg) {
     if (recording) throw new Error('Already recording');
     chunks = [];
     fps = msg.fps || 30;
-    withCameraInRecording = !!msg.includeCamera;
+    withCameraInRecording = !!msg.withCamera;
     const wantSystem = msg.withSystemAudio !== false;
 
     // Capture is requested here, in the offscreen document itself, rather
@@ -121,8 +121,8 @@ async function start(msg) {
         dest.stream.getAudioTracks().forEach(t => recStream.addTrack(t));
     }
 
-    // Camera (only if it should be drawn into the recording).
-    if (msg.withCamera && withCameraInRecording) {
+    // Camera (drawn into the recording whenever facecam is enabled).
+    if (msg.withCamera) {
         try {
             cameraStream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } });
             cameraVideo = document.createElement('video');

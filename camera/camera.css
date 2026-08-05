@@ -14,35 +14,11 @@ body {
     font-family: system-ui, sans-serif;
 }
 
-#titlebar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 8px;
-    background: #20242b;
-    font-size: 12px;
-    -webkit-app-region: drag;
-    user-select: none;
-}
-
-#titlebar button {
-    -webkit-app-region: no-drag;
-    background: #333;
-    color: #fff;
-    border: 0;
-    border-radius: 4px;
-    padding: 3px 8px;
-    font-size: 11px;
-    cursor: pointer;
-}
-
-#titlebar button:hover {
-    background: #444;
-}
-
-#camWrap {
-    position: absolute;
-    inset: 34px 0 0 0;
+#pipWrap {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: #000;
 }
 
 #cam {
@@ -55,71 +31,30 @@ body {
     transform: scaleX(-1);
 }
 
-#startPip {
+#pipControls {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 10px 18px;
-    font-size: 14px;
-    font-weight: 600;
-    background: #1a73e8;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+#pipWrap:hover #pipControls {
+    opacity: 1;
+}
+
+#pipControls button {
+    background: rgba(0, 0, 0, 0.6);
     color: #fff;
     border: 0;
-    border-radius: 8px;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 11px;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-#startPip:hover {
-    background: #1765cc;
-}
-
-@media all and (display-mode: picture-in-picture) {
-    #titlebar {
-        display: none;
-    }
-
-    #camWrap {
-        inset: 0;
-    }
-
-    #startPip {
-        display: none;
-    }
-
-    #pipWrap {
-        position: fixed;
-        inset: 0;
-        overflow: hidden;
-        background: #000;
-    }
-
-    #pipControls {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        display: flex;
-        gap: 6px;
-        opacity: 0;
-        transition: opacity 0.2s;
-    }
-
-    #pipWrap:hover #pipControls {
-        opacity: 1;
-    }
-
-    #pipControls button {
-        background: rgba(0, 0, 0, 0.6);
-        color: #fff;
-        border: 0;
-        border-radius: 4px;
-        padding: 4px 8px;
-        font-size: 11px;
-        cursor: pointer;
-    }
-
-    #pipControls button:hover {
-        background: rgba(0, 0, 0, 0.8);
-    }
+#pipControls button:hover {
+    background: rgba(0, 0, 0, 0.8);
 }

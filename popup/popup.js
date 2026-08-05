@@ -9,7 +9,7 @@
     };
 
     const settings = await chrome.storage.local.get({
-        withCamera: false, includeCamera: false,
+        withCamera: false,
         withMic: true, withSystemAudio: true, format: 'mp4',
         preset: 'balanced', resolution: 'original', fps: 30, bitrate: 5
     });
@@ -20,7 +20,6 @@
 
     // --- wire initial UI values ---
     $('withCamera').checked = settings.withCamera;
-    $('includeCamera').checked = settings.includeCamera;
     $('withMic').checked = settings.withMic;
     $('withSystemAudio').checked = settings.withSystemAudio;
     $('format').value = settings.format;
@@ -29,10 +28,8 @@
     $('fps').value = String(settings.fps);
     $('bitrate').value = String(settings.bitrate);
     $('bitrateVal').textContent = settings.bitrate + ' Mbps';
-    $('includeCamRow').style.display = settings.withCamera ? '' : 'none';
 
-    $('withCamera').onchange = () => { settings.withCamera = $('withCamera').checked; $('includeCamRow').style.display = settings.withCamera ? '' : 'none'; save(); };
-    $('includeCamera').onchange = () => { settings.includeCamera = $('includeCamera').checked; save(); };
+    $('withCamera').onchange = () => { settings.withCamera = $('withCamera').checked; save(); };
     $('withMic').onchange = () => { settings.withMic = $('withMic').checked; save(); };
     $('withSystemAudio').onchange = () => { settings.withSystemAudio = $('withSystemAudio').checked; save(); };
     $('format').onchange = () => { settings.format = $('format').value; save(); };
@@ -58,7 +55,6 @@
             videoBitsPerSecond: Math.round(bitrate * 1000000),
             audioBitsPerSecond: 160000,
             withCamera: settings.withCamera,
-            includeCamera: settings.includeCamera,
             withMic: settings.withMic,
             withSystemAudio: settings.withSystemAudio
         };
@@ -122,7 +118,16 @@
         if (res && res.ok) {
             state.recording = true;
             state.elapsed = 0;
-            if (settings.withCamera) chrome.runtime.sendMessage({ type: 'OPEN_CAMERA' });
+            // Open facecam PiP directly — no intermediate popup window.
+            if (settings.withCamera && 'documentPictureInPicture' in window) {
+                try {
+                    await chrome.storage.local.set({ cameraPipActive: true });
+                    const pipWin = await documentPictureInPicture.requestWindow({
+                        width: 320, height: 180, disallowReturnToOpener: true
+                    });
+                    pipWin.location.href = chrome.runtime.getURL('camera/camera-pip.html');
+                } catch (e) { /* PiP failed — recording continues without facecam preview */ }
+            }
             showRecording();
             // Recording is already running - these only say a track is missing.
             // They arrive as i18n keys because the offscreen document that
@@ -141,7 +146,7 @@
         $('stopBtn').disabled = false;
         if (res && res.ok) {
             state.recording = false;
-            if (settings.withCamera) chrome.runtime.sendMessage({ type: 'CLOSE_CAMERA' });
+            if (settings.withCamera) chrome.storage.local.set({ cameraPipActive: false });
             // Stopping is acknowledged immediately, but the file itself finishes
             // encoding a moment later - the RECORDING_STOPPED listener above
             // calls refresh() once it actually arrives and switches to the

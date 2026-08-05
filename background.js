@@ -13,8 +13,6 @@ async function setRecordingState(active, startTime) {
     await chrome.storage.session.set({ recActive: active, recStartTime: startTime || 0 });
 }
 
-let cameraWindowId = null;
-
 const NOTIF_ICON = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M8AAAMBAQDJ/pLvAAAAAElFTkSuQmCC';
 
 function stamp() {
@@ -80,7 +78,7 @@ async function handleMessage(msg) {
             try {
                 // The offscreen document opens the picker itself, so this can
                 // block for as long as the user takes to choose a source.
-                startRes = await sendToOffscreen({ type: 'START', format: msg.format, resolution: msg.resolution, fps: msg.fps, videoBitsPerSecond: msg.videoBitsPerSecond, audioBitsPerSecond: msg.audioBitsPerSecond, withCamera: msg.withCamera, includeCamera: msg.includeCamera, withMic: msg.withMic, withSystemAudio: msg.withSystemAudio }, 0);
+                startRes = await sendToOffscreen({ type: 'START', format: msg.format, resolution: msg.resolution, fps: msg.fps, videoBitsPerSecond: msg.videoBitsPerSecond, audioBitsPerSecond: msg.audioBitsPerSecond, withCamera: msg.withCamera, withMic: msg.withMic, withSystemAudio: msg.withSystemAudio }, 0);
             } catch (e) {
                 return { ok: false, error: e && e.message ? e.message : String(e) };
             }
@@ -136,8 +134,6 @@ async function handleMessage(msg) {
             await ensureOffscreen();
             return { ok: true };
         }
-        case 'OPEN_CAMERA': return openCamera();
-        case 'CLOSE_CAMERA': return closeCamera();
         case 'DOWNLOAD': {
             await chrome.downloads.download({ url: msg.url, filename: msg.filename, saveAs: true });
             return { ok: true };
@@ -239,15 +235,55 @@ async function handleMessage(msg) {
             try {
                 const rec = await RecordingsDB.getById(msg.id);
                 if (!rec) return { ok: false, error: 'Recording not found' };
-                // Revoke old URL if provided to prevent leaks.
-                if (msg.revokeOldUrl) {
-                    try { URL.revokeObjectURL(msg.revokeOldUrl); } catch (e) { }
-                }
                 const url = URL.createObjectURL(rec.blob);
                 return {
                     ok: true,
                     recording: { id: rec.id, name: rec.name, url: url, size: rec.size, duration: rec.duration, mime: rec.mime, ext: rec.ext, createdAt: rec.createdAt }
                 };
+            } catch (e) {
+                return { ok: false, error: e && e.message ? e.message : String(e) };
+            }
+        }
+        case 'DOWNLOAD_RECORDING': {
+            try {
+                const rec = await RecordingsDB.getById(msg.id);
+                if (!rec) return { ok: false, error: 'Recording not found' };
+                const url = URL.createObjectURL(rec.blob);
+                await chrome.downloads.download({ url: url, filename: rec.name, saveAs: true });
+                // Revoke after a short delay to let the download start.
+                setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) { } }, 30000);
+                return { ok: true };
+            } catch (e) {
+                return { ok: false, error: e && e.message ? e.message : String(e) };
+            }
+        }
+        case 'OPEN_EDITOR_RECORDING': {
+            try {
+                const rec = await RecordingsDB.getById(msg.id);
+                if (!rec) return { ok: false, error: 'Recording not found' };
+                const url = URL.createObjectURL(rec.blob);
+                await chrome.tabs.create({
+                    url: 'editor/editor.html?src=' + encodeURIComponent(url) + '&name=' + encodeURIComponent(rec.name || 'recording')
+                });
+                // Revoke after a delay — the editor will load the video into a <video> element
+                // which keeps its own reference to the blob data.
+                setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) { } }, 5000);
+                return { ok: true };
+            } catch (e) {
+                return { ok: false, error: e && e.message ? e.message : String(e) };
+            }
+        }
+        case 'UPLOAD_RECORDING': {
+            try {
+                const rec = await RecordingsDB.getById(msg.id);
+                if (!rec) return { ok: false, error: 'Recording not found' };
+                // Delegate to the existing uploadFlow with the blob directly.
+                return await uploadFlow({
+                    service: msg.service,
+                    url: URL.createObjectURL(rec.blob),
+                    name: rec.name,
+                    ext: rec.ext
+                });
             } catch (e) {
                 return { ok: false, error: e && e.message ? e.message : String(e) };
             }
@@ -276,34 +312,6 @@ async function handleMessage(msg) {
             return { ok: false, error: 'Unknown message: ' + msg.type };
     }
 }
-
-async function openCamera() {
-    if (cameraWindowId != null) {
-        try { await chrome.windows.update(cameraWindowId, { focused: true }); } catch (e) { }
-        return { ok: true, windowId: cameraWindowId };
-    }
-    const win = await chrome.windows.create({
-        url: 'camera/camera.html',
-        type: 'popup',
-        width: 400,
-        height: 360,
-        focused: false
-    });
-    cameraWindowId = win.id;
-    return { ok: true, windowId: win.id };
-}
-
-async function closeCamera() {
-    if (cameraWindowId != null) {
-        try { await chrome.windows.remove(cameraWindowId); } catch (e) { }
-        cameraWindowId = null;
-    }
-    return { ok: true };
-}
-
-chrome.windows.onRemoved.addListener((id) => {
-    if (id === cameraWindowId) cameraWindowId = null;
-});
 
 async function uploadFlow(msg) {
     const blob = await (await fetch(msg.url)).blob();

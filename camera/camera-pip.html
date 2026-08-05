@@ -7,19 +7,15 @@
 </head>
 
 <body>
-    <div id="titlebar">
-        <span data-i18n="cameraTitle"></span>
-        <div>
+    <div id="pipWrap">
+        <video id="cam" autoplay playsinline muted></video>
+        <div id="pipControls">
             <button id="mirror" data-i18n="cameraMirror"></button>
             <button id="close" data-i18n="cameraClose"></button>
         </div>
     </div>
-    <div id="camWrap">
-        <video id="cam" autoplay playsinline muted></video>
-        <button id="startPip" data-i18n="cameraStartPip"></button>
-    </div>
     <script src="../lib/i18n.js"></script>
-    <script src="camera.js"></script>
+    <script src="camera-pip.js"></script>
 </body>
 
 </html>

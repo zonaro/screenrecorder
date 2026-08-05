@@ -23,14 +23,14 @@ A arquitetura é baseada em **message passing** entre contextos isolados:
 
 ## Contextos isolados
 
-| Contexto | Arquivo | Responsabilidade |
-|---|---|---|
-| Service Worker | `background.js` | Orquestração, estado global, uploads, gerenciamento de janelas |
-| Offscreen document | `offscreen.js` | Gravação (MediaRecorder + canvas draw) |
-| Popup | `popup/popup.js` | UI de controle (setup → recording → result) |
-| Options | `options/options.js` | Configurações, idioma, conexões OAuth |
-| Editor | `editor/editor.js` | Edição de vídeo (timeline, cortes, overlays) |
-| Camera | `camera/camera.js` | Facecam em janela flutuante |
+| Contexto           | Arquivo                | Responsabilidade                                               |
+| ------------------ | ---------------------- | -------------------------------------------------------------- |
+| Service Worker     | `background.js`        | Orquestração, estado global, uploads, gerenciamento de janelas |
+| Offscreen document | `offscreen.js`         | Gravação (MediaRecorder + canvas draw)                         |
+| Popup              | `popup/popup.js`       | UI de controle (setup → recording → result)                    |
+| Options            | `options/options.js`   | Configurações, idioma, conexões OAuth                          |
+| Editor             | `editor/editor.js`     | Edição de vídeo (timeline, cortes, overlays)                   |
+| Camera             | `camera/camera-pip.js` | Facecam em Document Picture-in-Picture                         |
 
 ## Fluxo de gravação
 
@@ -55,14 +55,14 @@ A arquitetura é baseada em **message passing** entre contextos isolados:
 
 ## Módulos em `lib/`
 
-| Módulo | Responsabilidade |
-|---|---|
-| `lib/auth.js` | Autenticação Google (chrome.identity) e Microsoft (PKCE) |
-| `lib/editor-core.js` | Lógica pura do editor (sem DOM) |
-| `lib/export.js` | Re-renderização via canvas + MediaRecorder |
-| `lib/i18n.js` | Internacionalização |
+| Módulo                 | Responsabilidade                                                       |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `lib/auth.js`          | Autenticação Google (chrome.identity) e Microsoft (PKCE)               |
+| `lib/editor-core.js`   | Lógica pura do editor (sem DOM)                                        |
+| `lib/export.js`        | Re-renderização via canvas + MediaRecorder                             |
+| `lib/i18n.js`          | Internacionalização                                                    |
 | `lib/recordings-db.js` | Wrapper IndexedDB para persistência de gravações (CRUD + limite de 50) |
-| `lib/upload.js` | Uploads resumable (Drive, YouTube, OneDrive) |
+| `lib/upload.js`        | Uploads resumable (Drive, YouTube, OneDrive)                           |
 
 ## Instalação (modo desenvolvedor)
 
